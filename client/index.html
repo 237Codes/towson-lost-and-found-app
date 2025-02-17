@@ -10,15 +10,58 @@
 </head>
 
 <body>
-    <div class="element"></div>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="report-lost.html">Report Lost Item</a></li>
-            <li><a href="report-found.html">Report Found Item</a></li>
-        </ul>
-    </nav>
-    <h1>Welcome to TU Lost and Found</h1>
+    <!-- filter list -->
+    <div class="filter">
+        <h2 style="font-size: 30px">filter</h2>
+        <label>Category:</label>
+        <select id="categories">
+            <option value="all">All</option>
+            <option value="york">York</option>
+            <option value="center for the arts">Arts</option>
+            <option value="liberal arts">LA</option>
+            <option value="stephens hall">Business</option>
+            <option value="science complex">Science</option>
+            <option value="health professions">Health</option>
+        </select>
+        <br><br>
+        <label for="found items">Date Found:</label>
+        <input type="date" id="filter" name="When Items Found">
+        <br><br>
+
+        <button onclick="applyFilter()">Apply</button>
+    </div>
+    <div class="element">
+        <h1 style="font-size: 50px">Welcome to TU Lost and Found</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="report-lost.html">Report Lost Item</a></li>
+                <li><a href="report-found.html">Report Found Item</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        function applyFilter() {
+            const categories = document.getElementById('categoryFilter').value;
+            const date = document.getElementById('dateFilter').value;
+            const items = document.querySelectorAll('.item');
+
+            items.forEach(item => {
+                const itemCategory = item.getAttribute('data-category');
+                const itemDate = item.getAttribute('date-date');
+
+                let categoryMatch = categories === 'all' || itemCategory === categories;
+                let dateMatch = !date || itemDate === date;
+
+                if (categoryMatch && dateMatch) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
