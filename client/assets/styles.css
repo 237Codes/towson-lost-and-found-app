@@ -24,3 +24,20 @@ h1 {
     text-align: center;
     margin-top: 50px;
 }
+
+.element {
+    width: 300px;
+    height: 108px;
+    background-image: url('https://www.pngkey.com/png/full/535-5356196_towson-university-logo.png');
+    background-size: cover;
+    background-position: top right;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+html {
+    background: url('https://wallpaperaccess.com/full/1098290.jpg') no-repeat center fixed;
+    background-size: cover;
+}
