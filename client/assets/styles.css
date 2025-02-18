@@ -1,7 +1,18 @@
 /* Frontend (CSS) - /client/assets/styles.css */
+body {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 0;
+    padding: 0;
+}
+
 nav {
-    background-color: #333;
+    background-color: #050505;
     padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
 }
 
 nav ul {
@@ -9,6 +20,8 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+    justify-content: left;
+    gap: 20px;
 }
 
 nav ul li {
@@ -16,13 +29,19 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
+    color: rgb(236, 205, 30);
     text-decoration: none;
 }
 
 h1 {
+    color: #f1f1ef;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 60px;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
 }
 
 .element {
@@ -30,14 +49,25 @@ h1 {
     height: 108px;
     background-image: url('https://www.pngkey.com/png/full/535-5356196_towson-university-logo.png');
     background-size: cover;
-    background-position: top right;
+    background-position: top left;
     background-repeat: no-repeat;
     position: absolute;
     top: 0;
     right: 0;
+
 }
 
 html {
     background: url('https://wallpaperaccess.com/full/1098290.jpg') no-repeat center fixed;
     background-size: cover;
+}
+
+.filter {
+    background-color: #f3f3f2;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    position: fixed;
+    top: 210px;
+    left: 20px;
 }
