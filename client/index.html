@@ -24,7 +24,7 @@
             <option value="health professions">Health</option>
         </select>
         <br><br>
-        <label for="found items">Date Found:</label>
+        <label for="filter">Date Found:</label>
         <input type="date" id="filter" name="When Items Found">
         <br><br>
 
@@ -43,15 +43,15 @@
 
     <script>
         function applyFilter() {
-            const categories = document.getElementById('categoryFilter').value;
-            const date = document.getElementById('dateFilter').value;
+            const category = document.getElementById('categories').value;
+            const date = document.getElementById('filter').value;
             const items = document.querySelectorAll('.item');
 
             items.forEach(item => {
                 const itemCategory = item.getAttribute('data-category');
                 const itemDate = item.getAttribute('date-date');
 
-                let categoryMatch = categories === 'all' || itemCategory === categories;
+                let categoryMatch = categories === 'all' || itemCategory === category;
                 let dateMatch = !date || itemDate === date;
 
                 if (categoryMatch && dateMatch) {
