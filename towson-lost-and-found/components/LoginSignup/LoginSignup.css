@@ -78,3 +78,23 @@ button[type="submit"]:hover {
 .toggle-button:hover {
     text-decoration: underline;
 }
+
+.redirect-message {
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+.form-box h2 {
+    /* Update existing styles */
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.form-box p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 1rem;
+}

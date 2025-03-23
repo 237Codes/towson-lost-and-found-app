@@ -11,6 +11,7 @@ export default function LoginSignup() {
     password: "",
   });
   const [error, setError] = useState("");
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +22,7 @@ export default function LoginSignup() {
   };
 
   const validateEmail = (email) => {
-    return email.toLowerCase().endsWith("@students.towson.edu");
+    return email.toLowerCase().endsWith("@students.towson.edu" || "@towson.edu"); // Validate email address
   };
 
   const handleSubmit = async (e) => {
@@ -30,7 +31,7 @@ export default function LoginSignup() {
 
     if (!validateEmail(formData.email)) {
       setError(
-        "Please use a valid Towson University email address (@towson.edu)"
+        "Please use a valid Towson University email address (@students.towson.edu)"
       );
       return;
     }
@@ -55,7 +56,7 @@ export default function LoginSignup() {
         if (isLogin) {
           // If logging in, save token and redirect
           localStorage.setItem("token", data.token);
-          window.location.href = "/dashboard";
+          window.location.href = "/";
         } else {
           // If signing up, show verification step
           setVerificationStep(true);
@@ -86,7 +87,11 @@ export default function LoginSignup() {
 
       if (data.success) {
         localStorage.setItem("token", data.token);
-        window.location.href = "/dashboard";
+        setVerificationSuccess(true);
+        // Redirect after 3 seconds
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 3000);
       } else {
         setError(data.message);
       }
@@ -94,6 +99,19 @@ export default function LoginSignup() {
       setError("Failed to verify code");
     }
   };
+
+  // Show success message if verification is successful
+  if (verificationSuccess) {
+    return (
+      <div className="login-signup-container">
+        <div className="form-box">
+          <h2>Verification Successful! 🎉</h2>
+          <p>Your email has been verified successfully.</p>
+          <p className="redirect-message">Redirecting to Home...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Render verification form if in verification step
   if (verificationStep) {

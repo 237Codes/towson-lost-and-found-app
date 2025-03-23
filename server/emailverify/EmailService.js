@@ -3,7 +3,6 @@ require('dotenv').config();
 
 // This file is used for SendGrid setup and functionality
 
-
 class EmailService {
   constructor() {
     if (!process.env.SENDGRID_API_KEY) {
