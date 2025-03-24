@@ -1,0 +1,45 @@
+.home-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+    width: 100%;
+}
+
+.navbar {
+    background-color: #000000;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.header {
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-top: 2rem;
+}
+
+.header h1 {
+    color: #000000;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.login-button {
+    display: inline-block;
+    background-color: #FFB800;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #E6A500;
+}
