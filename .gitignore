@@ -1,0 +1,14 @@
+.qodo
+
+.env
+node_modules
+
+# Environment variables
+.env
+
+# Dependencies
+node_modules/
+
+# IDE specific files
+.DS_Store
+.vscode/
