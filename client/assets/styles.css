@@ -71,3 +71,13 @@ html {
     top: 210px;
     left: 20px;
 }
+
+.form-container {
+    background-color: #f3f3f2;
+    border-radius: 15px;
+    padding: 30px;
+    width: 80%;
+    max-width: 600px;
+    margin: 120px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

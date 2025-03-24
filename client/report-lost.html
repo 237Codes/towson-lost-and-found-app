@@ -16,5 +16,62 @@
         </ul>
     </nav>
     <h1>Report a Lost Item</h1>
+
+    <div class="form-container">
+        <form action="/submit-lost-item" method="POST" enctype="multipart/form-data">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">TU Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="phone">Phone Number (optional):</label>
+            <input type="tel" id="phone" name="phone"><br><br>
+
+            <label for="item">Item Name:</label>
+            <input type="text" id="item" name="item" required><br><br>
+
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option>Electronics</option>
+                <option>Clothing</option>
+                <option>ID Cards</option>
+                <option>Keys</option>
+                <option>Accessories</option>
+                <option>Other</option>
+            </select><br><br>
+
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color"><br><br>
+
+            <label for="description">Detailed Description:</label><br>
+            <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+            <label for="photo">Upload Photo:</label>
+            <input type="file" id="photo" name="photo"><br><br>
+
+            <label for="location">Last Known Location:</label>
+            <input type="text" id="location" name="location" required><br><br>
+
+            <label for="date">Date Lost:</label>
+            <input type="date" id="date" name="date" required><br><br>
+
+            <label for="verify">Verification Detail (e.g., serial number):</label>
+            <input type="text" id="verify" name="verify"><br><br>
+
+            <label for="contact-method">Preferred Contact Method:</label>
+            <select id="contact-method" name="contact-method">
+                <option>Email</option>
+                <option>Phone</option>
+            </select><br><br>
+
+            <label>
+                <input type="checkbox" id="alerts" name="alerts">
+                Subscribe to alerts for matching items
+            </label><br><br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
