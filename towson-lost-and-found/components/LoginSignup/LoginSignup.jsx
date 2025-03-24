@@ -1,6 +1,53 @@
 import React, { useState } from "react";
 import "./LoginSignup.css";
 
+/**
+ * LoginSignup component handles user authentication for login and signup processes.
+ * It includes form validation, email verification, and error handling.
+ *
+ * @component
+ * @example
+ * return (
+ *   <LoginSignup />
+ * )
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @function
+ * @name LoginSignup
+ *
+ * @description
+ * - If the user is logging in, it sends a POST request to the /login endpoint.
+ * - If the user is signing up, it sends a POST request to the /signup endpoint and then shows the verification step.
+ * - If the email verification is successful, it stores the token and redirects to the home page.
+ *
+ * @state {boolean} isLogin - Determines whether the form is for login or signup.
+ * @state {boolean} verificationStep - Indicates if the email verification step is active.
+ * @state {string} verificationCode - Stores the verification code entered by the user.
+ * @state {Object} formData - Stores the form data including name, email, and password.
+ * @state {string} formData.name - The user's full name.
+ * @state {string} formData.email - The user's email address.
+ * @state {string} formData.password - The user's password.
+ * @state {string} error - Stores any error messages.
+ * @state {boolean} verificationSuccess - Indicates if the email verification was successful.
+ *
+ * @function handleInputChange
+ * @description Handles input changes and updates the formData state.
+ * @param {Object} e - The event object.
+ *
+ * @function validateEmail
+ * @description Validates if the email address is a valid Towson University email.
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} True if the email is valid, otherwise false.
+ *
+ * @function handleSubmit
+ * @description Handles form submission for login or signup.
+ * @param {Object} e - The event object.
+ *
+ * @function handleVerification
+ * @description Handles the email verification process.
+ * @param {Object} e - The event object.
+ */
 export default function LoginSignup() {
   const [isLogin, setIsLogin] = useState(true);
   const [verificationStep, setVerificationStep] = useState(false);
