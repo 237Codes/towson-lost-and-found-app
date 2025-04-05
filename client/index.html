@@ -25,43 +25,28 @@
         </select>
         <br><br>
         <label for="filter">Date Found:</label>
-        <input type="date" id="filter" name="When Items Found">
+        <input type="date" id="filter-found" name="When Items Found">
         <br><br>
 
-        <button onclick="applyFilter()">Apply</button>
+        <button id="apply-filter-btn">Apply</button>
     </div>
     <div class="element">
         <h1 style="font-size: 50px">Welcome to TU Lost and Found</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="nav-active">Home</a></li>
                 <li><a href="report-lost.html">Report Lost Item</a></li>
                 <li><a href="report-found.html">Report Found Item</a></li>
             </ul>
         </nav>
     </div>
 
-    <script>
-        function applyFilter() {
-            const category = document.getElementById('categories').value;
-            const date = document.getElementById('filter').value;
-            const items = document.querySelectorAll('.item');
+    <div id="reported-items-container">
+        <h2>All Reported Items</h2>
+        <p>No items to display.</p>
+    </div>
+    <script src="scripts.js"></script>
 
-            items.forEach(item => {
-                const itemCategory = item.getAttribute('data-category');
-                const itemDate = item.getAttribute('date-date');
-
-                let categoryMatch = categories === 'all' || itemCategory === category;
-                let dateMatch = !date || itemDate === date;
-
-                if (categoryMatch && dateMatch) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>
