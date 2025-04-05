@@ -1,24 +1,26 @@
 <!-- Frontend (HTML) - /client/report-found.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Found Item</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
+
 <body>
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="report-lost.html">Report Lost Item</a></li>
-            <li><a href="report-found.html">Report Found Item</a></li>
+            <li><a href="report-found.html" class="nav-active">Report Found Item</a></li>
         </ul>
     </nav>
     <h1>Report a Found Item</h1>
 
     <div class="form-container">
-        <form action="/submit-found-item" method="POST" enctype="multipart/form-data">
+        <form id="found-item-form">
             <label for="name">Full Name:</label>
             <input type="text" id="name" name="name" required><br><br>
 
@@ -52,12 +54,12 @@
 
             <label for="location">Location Found:</label>
             <select id="location" name="location" required>
-                <option value="york">York</option>
-                <option value="arts">Arts</option>
-                <option value="la">LA</option>
-                <option value="business">Business</option>
-                <option value="science">Science</option>
-                <option value="health">Health</option>
+                <option value="York">York</option>
+                <option value="Arts">Arts</option>
+                <option value="LA">LA</option>
+                <option value="Business">Business</option>
+                <option value="Science">Science</option>
+                <option value="Health">Health</option>
             </select><br><br>
 
             <label for="date">Date Found:</label>
@@ -89,4 +91,7 @@
         </form>
     </div>
 </body>
+
+<script src="scripts.js"></script>
+
 </html>
