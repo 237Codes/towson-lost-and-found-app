@@ -1,24 +1,26 @@
 <!-- Frontend (HTML) - /client/report-lost.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Lost Item</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
+
 <body>
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="report-lost.html">Report Lost Item</a></li>
+            <li><a href="report-lost.html" class="nav-active">Report Lost Item</a></li>
             <li><a href="report-found.html">Report Found Item</a></li>
         </ul>
     </nav>
     <h1>Report a Lost Item</h1>
 
     <div class="form-container">
-        <form action="/submit-lost-item" method="POST" enctype="multipart/form-data">
+        <form id="lost-item-form">
             <label for="name">Full Name:</label>
             <input type="text" id="name" name="name" required><br><br>
 
@@ -52,12 +54,12 @@
 
             <label for="location">Last Known Location:</label>
             <select id="location" name="location" required>
-                <option value="york">York</option>
-                <option value="arts">Arts</option>
-                <option value="la">LA</option>
-                <option value="business">Business</option>
-                <option value="science">Science</option>
-                <option value="health">Health</option>
+                <option value="York">York</option>
+                <option value="Arts">Arts</option>
+                <option value="LA">LA</option>
+                <option value="Business">Business</option>
+                <option value="Science">Science</option>
+                <option value="Health">Health</option>
             </select><br><br>
 
             <label for="date">Date Lost:</label>
@@ -81,4 +83,7 @@
         </form>
     </div>
 </body>
+
+<script src="scripts.js"></script>
+
 </html>
