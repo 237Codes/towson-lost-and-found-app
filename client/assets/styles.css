@@ -33,6 +33,11 @@ nav ul li a {
     text-decoration: none;
 }
 
+nav ul li a:hover {
+    color: #ffffff;
+}
+
+
 h1 {
     color: #f1f1ef;
     text-align: center;
@@ -80,4 +85,58 @@ html {
     max-width: 600px;
     margin: 120px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container form input[type="text"],
+.form-container form input[type="email"],
+.form-container form input[type="tel"],
+.form-container form input[type="date"],
+.form-container form textarea,
+.form-container form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #eccd1e;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ffd700;
+}
+
+#reported-items-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    max-width: 1000px;
+    margin-top: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reported-item {
+    background-color: #ffffff;
+    color: black;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin-top: 50px;
 }
