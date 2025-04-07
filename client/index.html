@@ -1,17 +1,31 @@
-<!-- Frontend (HTML) - /client/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TU Lost and Found</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
 <body>
-    <!-- filter list -->
-    <div class="filter">
+    <!-- NAVIGATION -->
+    <nav>
+        <ul>
+            <li><a href="index.html" class="nav-active">Home</a></li>
+            <li><a href="report-lost.html">Report Lost Item</a></li>
+            <li><a href="report-found.html">Report Found Item</a></li>
+        </ul>
+    </nav>
+
+    <!-- TU Logo -->
+    <div class="element"></div>
+
+    <!-- TITLE -->
+    <h1>Welcome to TU Lost and Found</h1>
+
+    <!-- FILTER BOX -->
+    <div class="form-container" style="width: 300px; margin-left: 20px; float: left; background-color: #f3f3f2;">
         <h3>Filter Items</h3>
         <label for="status">Status:</label>
         <select id="status">
@@ -19,7 +33,7 @@
             <option value="lost">Lost</option>
             <option value="found">Found</option>
         </select><br><br>
-    
+
         <label for="categories">Category:</label>
         <select id="categories">
             <option value="all">All</option>
@@ -30,37 +44,26 @@
             <option value="Accessories">Accessories</option>
             <option value="Other">Other</option>
         </select><br><br>
-    
+
         <label for="color">Color:</label>
         <input type="text" id="color" placeholder="Enter color"><br><br>
-    
-        <label for="location">Location:</label>
+
+        <label for="location-filter">Location:</label>
         <input type="text" id="location-filter" placeholder="Enter location"><br><br>
-    
+
         <label for="filter-date">Date:</label>
         <input type="date" id="filter-date"><br><br>
-    
+
         <button id="apply-filter-btn">Apply Filter</button>
     </div>
-    
-    </div>
-    <div class="element">
-        <h1 style="font-size: 50px">Welcome to TU Lost and Found</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="nav-active">Home</a></li>
-                <li><a href="report-lost.html">Report Lost Item</a></li>
-                <li><a href="report-found.html">Report Found Item</a></li>
-            </ul>
-        </nav>
-    </div>
 
-    <div id="reported-items-container">
+    <!-- ITEMS CONTAINER -->
+    <div id="reported-items-container" style="margin-left: 340px;">
         <h2>All Reported Items</h2>
         <p>No items to display.</p>
     </div>
-    <script src="scripts.js"></script>
 
+    <script src="scripts.js"></script>
 </body>
 
 </html>
