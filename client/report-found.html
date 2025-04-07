@@ -1,12 +1,11 @@
-<!-- Frontend (HTML) - /client/report-found.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Report Found Item</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
 <body>
@@ -17,81 +16,84 @@
             <li><a href="report-found.html" class="nav-active">Report Found Item</a></li>
         </ul>
     </nav>
+
+    <div class="element"></div>
+
     <h1>Report a Found Item</h1>
 
     <div class="form-container">
         <form id="found-item-form">
             <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <input type="text" id="name" required />
 
             <label for="email">TU Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <input type="email" id="email" required />
 
             <label for="phone">Phone Number (optional):</label>
-            <input type="tel" id="phone" name="phone"><br><br>
+            <input type="tel" id="phone" />
 
             <label for="item">Item Name:</label>
-            <input type="text" id="item" name="item" required><br><br>
+            <input type="text" id="item" required />
 
             <label for="category">Category:</label>
-            <select id="category" name="category">
+            <select id="category">
                 <option>Electronics</option>
                 <option>Clothing</option>
                 <option>ID Cards</option>
                 <option>Keys</option>
                 <option>Accessories</option>
                 <option>Other</option>
-            </select><br><br>
+            </select>
 
             <label for="color">Color:</label>
-            <input type="text" id="color" name="color"><br><br>
+            <input type="text" id="color" />
 
-            <label for="description">Detailed Description:</label><br>
-            <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+            <label for="description">Detailed Description:</label>
+            <textarea id="description" rows="4" required></textarea>
 
             <label for="photo">Upload Photo:</label>
-            <input type="file" id="photo" name="photo"><br><br>
+            <input type="file" id="photo" />
 
             <label for="location">Location Found:</label>
-            <select id="location" name="location" required>
+            <select id="location" required>
                 <option value="York">York</option>
                 <option value="Arts">Arts</option>
                 <option value="LA">LA</option>
                 <option value="Business">Business</option>
                 <option value="Science">Science</option>
                 <option value="Health">Health</option>
-            </select><br><br>
+            </select>
 
             <label for="date">Date Found:</label>
-            <input type="date" id="date" name="date" required><br><br>
+            <input type="date" id="date" required />
 
             <label for="dropoff">Where Item Has Been Dropped Off (if any):</label>
-            <input type="text" id="dropoff" name="dropoff"><br><br>
+            <input type="text" id="dropoff" />
 
             <label for="contact-method">Preferred Contact Method:</label>
-            <select id="contact-method" name="contact-method">
+            <select id="contact-method">
                 <option>Email</option>
                 <option>Phone</option>
-            </select><br><br>
+            </select>
 
             <label>
-                <input type="checkbox" id="can-contact" name="can-contact">
+                <input type="checkbox" id="can-contact" />
                 I am willing to be contacted for pickup details
-            </label><br><br>
+            </label>
 
             <label for="verification-tip">Optional Verification Tip (e.g. sticker, engraving):</label>
-            <input type="text" id="verification-tip" name="verification-tip"><br><br>
+            <input type="text" id="verification-tip" />
 
             <label>
-                <input type="checkbox" required>
+                <input type="checkbox" required />
                 I confirm this information is accurate.
-            </label><br><br>
+            </label>
 
             <button type="submit">Submit</button>
         </form>
     </div>
-</body>
 
-<script src="scripts.js"></script>
+    <script src="scripts.js"></script>
+</body>
 
 </html>
