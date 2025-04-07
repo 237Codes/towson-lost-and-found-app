@@ -1,12 +1,11 @@
-<!-- Frontend (HTML) - /client/report-lost.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Report Lost Item</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
 <body>
@@ -17,73 +16,76 @@
             <li><a href="report-found.html">Report Found Item</a></li>
         </ul>
     </nav>
+
+    <div class="element"></div>
+
     <h1>Report a Lost Item</h1>
 
     <div class="form-container">
         <form id="lost-item-form">
             <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <input type="text" id="name" required />
 
             <label for="email">TU Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <input type="email" id="email" required />
 
             <label for="phone">Phone Number (optional):</label>
-            <input type="tel" id="phone" name="phone"><br><br>
+            <input type="tel" id="phone" />
 
             <label for="item">Item Name:</label>
-            <input type="text" id="item" name="item" required><br><br>
+            <input type="text" id="item" required />
 
             <label for="category">Category:</label>
-            <select id="category" name="category">
+            <select id="category">
                 <option>Electronics</option>
                 <option>Clothing</option>
                 <option>ID Cards</option>
                 <option>Keys</option>
                 <option>Accessories</option>
                 <option>Other</option>
-            </select><br><br>
+            </select>
 
             <label for="color">Color:</label>
-            <input type="text" id="color" name="color"><br><br>
+            <input type="text" id="color" />
 
-            <label for="description">Detailed Description:</label><br>
-            <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+            <label for="description">Detailed Description:</label>
+            <textarea id="description" rows="4" required></textarea>
 
             <label for="photo">Upload Photo:</label>
-            <input type="file" id="photo" name="photo"><br><br>
+            <input type="file" id="photo" />
 
             <label for="location">Last Known Location:</label>
-            <select id="location" name="location" required>
+            <select id="location" required>
                 <option value="York">York</option>
                 <option value="Arts">Arts</option>
                 <option value="LA">LA</option>
                 <option value="Business">Business</option>
                 <option value="Science">Science</option>
                 <option value="Health">Health</option>
-            </select><br><br>
+            </select>
 
             <label for="date">Date Lost:</label>
-            <input type="date" id="date" name="date" required><br><br>
+            <input type="date" id="date" required />
 
             <label for="verify">Verification Detail (e.g., serial number):</label>
-            <input type="text" id="verify" name="verify"><br><br>
+            <input type="text" id="verify" />
 
             <label for="contact-method">Preferred Contact Method:</label>
-            <select id="contact-method" name="contact-method">
+            <select id="contact-method">
                 <option>Email</option>
                 <option>Phone</option>
-            </select><br><br>
+            </select>
 
             <label>
-                <input type="checkbox" id="alerts" name="alerts">
+                <input type="checkbox" id="alerts" />
                 Subscribe to alerts for matching items
-            </label><br><br>
+            </label>
 
             <button type="submit">Submit</button>
         </form>
     </div>
-</body>
 
-<script src="scripts.js"></script>
+    <script src="scripts.js"></script>
+</body>
 
 </html>
