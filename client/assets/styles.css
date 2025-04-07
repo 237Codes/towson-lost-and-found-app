@@ -1,18 +1,21 @@
-/* Frontend (CSS) - /client/assets/styles.css */
 body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin: 0;
     padding: 0;
 }
 
+html {
+    background: url('https://wallpaperaccess.com/full/1098290.jpg') no-repeat center fixed;
+    background-size: cover;
+}
+
+/* Navbar */
 nav {
     background-color: #050505;
     padding: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    z-index: -1;
+    position: relative;
+    z-index: 5;
 }
 
 nav ul {
@@ -20,12 +23,7 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: left;
     gap: 20px;
-}
-
-nav ul li {
-    margin-right: 20px;
 }
 
 nav ul li a {
@@ -37,54 +35,39 @@ nav ul li a:hover {
     color: #ffffff;
 }
 
-
-h1 {
-    color: #f1f1ef;
-    text-align: center;
-    margin-top: 60px;
-    padding: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 3;
-}
-
+/* TU Logo */
 .element {
-    width: 300px;
-    height: 108px;
     background-image: url('https://www.pngkey.com/png/full/535-5356196_towson-university-logo.png');
     background-size: cover;
     background-position: top left;
     background-repeat: no-repeat;
+    width: 300px;
+    height: 108px;
     position: absolute;
     top: 0;
     right: 0;
-
+    z-index: 1;
 }
 
-html {
-    background: url('https://wallpaperaccess.com/full/1098290.jpg') no-repeat center fixed;
-    background-size: cover;
+/* Page Title */
+h1 {
+    color: #f1f1ef;
+    text-align: center;
+    margin-top: 100px;
+    padding: 10px;
 }
 
-.filter {
-    background-color: #f3f3f2;
-    padding: 20px;
-    border-radius: 10px;
-    width: 250px;
-    position: fixed;
-    top: 210px;
-    left: 20px;
-}
-
+/* Form Styling */
 .form-container {
     background-color: #f3f3f2;
     border-radius: 15px;
     padding: 30px;
     width: 80%;
     max-width: 600px;
-    margin: 120px auto;
+    margin: 40px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    position: relative;
 }
 
 .form-container form input[type="text"],
@@ -117,6 +100,7 @@ button:hover {
     background-color: #ffd700;
 }
 
+/* Flip Cards (for index.html) */
 #reported-items-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -132,11 +116,63 @@ button:hover {
 }
 
 .reported-item {
-    background-color: #ffffff;
-    color: black;
+    perspective: 1000px;
+    width: 300px;
+    height: 400px;
+}
+
+.reported-item-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.reported-item:hover .reported-item-inner {
+    transform: rotateY(180deg);
+}
+
+.reported-item-front,
+.reported-item-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     border-radius: 10px;
+    overflow: hidden;
+}
+
+.reported-item-front {
+    background-color: #fff;
+}
+
+.reported-item-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reported-item-back {
+    background-color: white;
+    color: black;
     padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    margin-top: 50px;
+    transform: rotateY(180deg);
+    overflow-y: auto;
+}
+
+button.action-btn {
+    margin-top: 10px;
+    background-color: #eccd1e;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.action-btn:hover {
+    background-color: #ffd700;
 }
