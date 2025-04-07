@@ -87,17 +87,30 @@ function renderItems(items, containerId) {
 }
 
 function applyFilter() {
+    const status = document.getElementById("status").value.toLowerCase();
     const category = document.getElementById("categories").value.toLowerCase();
-    const date = document.getElementById("filter-found").value;
+    const color = document.getElementById("color").value.toLowerCase();
+    const location = document.getElementById("location-filter").value.toLowerCase();
+    const date = document.getElementById("filter-date").value;
 
     const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
     const foundItems = JSON.parse(localStorage.getItem("foundItems")) || [];
-    const allItems = [...lostItems, ...foundItems];
+
+    let allItems = [];
+    if (status === "lost") {
+        allItems = lostItems;
+    } else if (status === "found") {
+        allItems = foundItems;
+    } else {
+        allItems = [...lostItems, ...foundItems];
+    }
 
     const filteredItems = allItems.filter((item) => {
         const categoryMatch = category === "all" || item.category.toLowerCase() === category;
+        const colorMatch = !color || (item.color && item.color.toLowerCase().includes(color));
+        const locationMatch = !location || item.location.toLowerCase().includes(location);
         const dateMatch = !date || item.date === date;
-        return categoryMatch && dateMatch;
+        return categoryMatch && colorMatch && locationMatch && dateMatch;
     });
 
     renderItems(filteredItems, "reported-items-container");

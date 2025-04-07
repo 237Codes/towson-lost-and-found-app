@@ -12,23 +12,37 @@
 <body>
     <!-- filter list -->
     <div class="filter">
-        <h2 style="font-size: 30px">filter</h2>
-        <label>Category:</label>
+        <h3>Filter Items</h3>
+        <label for="status">Status:</label>
+        <select id="status">
+            <option value="all">All</option>
+            <option value="lost">Lost</option>
+            <option value="found">Found</option>
+        </select><br><br>
+    
+        <label for="categories">Category:</label>
         <select id="categories">
             <option value="all">All</option>
-            <option value="york">York</option>
-            <option value="center for the arts">Arts</option>
-            <option value="liberal arts">LA</option>
-            <option value="stephens hall">Business</option>
-            <option value="science complex">Science</option>
-            <option value="health professions">Health</option>
-        </select>
-        <br><br>
-        <label for="filter">Date Found:</label>
-        <input type="date" id="filter-found" name="When Items Found">
-        <br><br>
-
-        <button id="apply-filter-btn">Apply</button>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="ID Cards">ID Cards</option>
+            <option value="Keys">Keys</option>
+            <option value="Accessories">Accessories</option>
+            <option value="Other">Other</option>
+        </select><br><br>
+    
+        <label for="color">Color:</label>
+        <input type="text" id="color" placeholder="Enter color"><br><br>
+    
+        <label for="location">Location:</label>
+        <input type="text" id="location-filter" placeholder="Enter location"><br><br>
+    
+        <label for="filter-date">Date:</label>
+        <input type="date" id="filter-date"><br><br>
+    
+        <button id="apply-filter-btn">Apply Filter</button>
+    </div>
+    
     </div>
     <div class="element">
         <h1 style="font-size: 50px">Welcome to TU Lost and Found</h1>
