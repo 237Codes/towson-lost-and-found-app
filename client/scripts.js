@@ -70,18 +70,31 @@ function renderItems(items, containerId) {
     items.forEach((item) => {
         const itemDiv = document.createElement("div");
         itemDiv.classList.add("reported-item");
+
+        const status = (localStorage.getItem("lostItems") || "").includes(JSON.stringify(item)) ? "lost" : "found";
+        const dateLabel = status === "found" ? "Date Found" : "Date Lost";
+        const actionLabel = status === "lost" ? "Mark as Found" : "Claim Item";
+
         itemDiv.innerHTML = `
-            <h3>${item.itemName}</h3>
-            <p><strong>Category:</strong> ${item.category}</p>
-            <p><strong>Date Found:</strong> ${item.date}</p>
-            <p><strong>Location:</strong> ${item.location}</p>
-            <p><strong>Description:</strong> ${item.description}</p>
-            <p><strong>Color:</strong> ${item.color || "Not specified"}</p>
-            <p><strong>Dropoff Location:</strong> ${item.dropoff}</p>
-            <p><strong>Contact Method:</strong> ${item.contactMethod}</p>
-            <p><strong>Verification Tip:</strong> ${item.verificationTip}</p>
-            <img src="${item.photo}" alt="Uploaded photo" style="max-width: 100px; max-height: 100px;">
+            <div class="reported-item-inner">
+                <div class="reported-item-front">
+                    <img src="${item.photo}" alt="${item.itemName}">
+                </div>
+                <div class="reported-item-back">
+                    <h3>${item.itemName}</h3>
+                    <p><strong>Category:</strong> ${item.category}</p>
+                    <p><strong>${dateLabel}:</strong> ${item.date}</p>
+                    <p><strong>Location:</strong> ${item.location}</p>
+                    <p><strong>Description:</strong> ${item.description}</p>
+                    <p><strong>Color:</strong> ${item.color || "Not specified"}</p>
+                    <p><strong>Dropoff Location:</strong> ${item.dropoff}</p>
+                    <p><strong>Contact Method:</strong> ${item.contactMethod}</p>
+                    <p><strong>Verification Tip:</strong> ${item.verificationTip}</p>
+                    <button class="action-btn">${actionLabel}</button>
+                </div>
+            </div>
         `;
+
         container.appendChild(itemDiv);
     });
 }
