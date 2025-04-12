@@ -224,3 +224,33 @@ button.action-btn:hover {
     color: #666;
     margin: 0;
 }
+
+.multiselect-color {
+    background-color: #f3f3f2;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.multiselect-color label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.color-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    flex-shrink: 0;
+}

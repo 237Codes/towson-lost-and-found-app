@@ -45,8 +45,23 @@
                 <option>Other</option>
             </select>
 
-            <label for="color">Color:</label>
-            <input type="text" id="color" />
+            <label for="color-filter">Color(s):</label>
+            <div id="color-filter" class="multiselect-color">
+                <label><input type="checkbox" value="Beige"> Beige <span class="color-swatch" style="background-color: #f5f5dc;"></span></label>
+                <label><input type="checkbox" value="Black"> Black <span class="color-swatch" style="background-color: #000;"></span></label>
+                <label><input type="checkbox" value="Blue"> Blue <span class="color-swatch" style="background-color: #0000ff;"></span></label>
+                <label><input type="checkbox" value="Brown"> Brown <span class="color-swatch" style="background-color: #8b0000;"></span></label>
+                <label><input type="checkbox" value="Gray"> Gray <span class="color-swatch" style="background-color: #808080;"></span></label>
+                <label><input type="checkbox" value="Green"> Green <span class="color-swatch" style="background-color: #008000;"></span></label>
+                <label><input type="checkbox" value="Multi"> Multi <span class="color-swatch" style="background-image: linear-gradient(45deg, red, blue);"></span></label>
+                <label><input type="checkbox" value="Orange"> Orange <span class="color-swatch" style="background-color: orange;"></span></label>
+                <label><input type="checkbox" value="Pink"> Pink <span class="color-swatch" style="background-color: pink;"></span></label>
+                <label><input type="checkbox" value="Purple"> Purple <span class="color-swatch" style="background-color: purple;"></span></label>
+                <label><input type="checkbox" value="Red"> Red <span class="color-swatch" style="background-color: red;"></span></label>
+                <label><input type="checkbox" value="Turquoise"> Turquoise <span class="color-swatch" style="background-color: turquoise;"></span></label>
+                <label><input type="checkbox" value="White"> White <span class="color-swatch" style="background-color: #fff; border: 1px solid #000;"></span></label>
+                <label><input type="checkbox" value="Yellow"> Yellow <span class="color-swatch" style="background-color: yellow;"></span></label>
+            </div>
 
             <label for="description">Detailed Description:</label>
             <textarea id="description" rows="4" required></textarea>

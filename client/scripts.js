@@ -6,9 +6,11 @@ function submitItem(event, key) {
     const phone = document.getElementById("phone").value.trim();
     const itemName = document.getElementById("item").value.trim();
     const category = document.getElementById("category").value.trim();
-    const color = document.getElementById("color").value.trim();
+    const selectedColors = Array.from(document.querySelectorAll('#color-filter input:checked'))
+    .map(cb => cb.value.toLowerCase());
     const description = document.getElementById("description").value.trim();
-    const location = document.getElementById("location").value.trim();
+    const locationInput = document.getElementById("location");
+    const location = locationInput ? locationInput.value : "";  
     const date = document.getElementById("date").value.trim();
     const dropoff = document.getElementById("dropoff")?.value.trim() || "Not specified";
     const contactMethod = document.getElementById("contact-method").value.trim();
@@ -30,7 +32,7 @@ function submitItem(event, key) {
             phone,
             itemName,
             category,
-            color,
+            color: selectedColors.join(', '),
             description,
             photo: photo || "assets/placeholder.png",
             location,
@@ -124,8 +126,9 @@ function renderItems(items, containerId) {
 function applyFilter() {
     const status = document.getElementById("status").value.toLowerCase();
     const category = document.getElementById("categories").value.toLowerCase();
-    const color = document.getElementById("color").value.toLowerCase();
-    const location = document.getElementById("location-filter").value.toLowerCase();
+    const selectedColors = Array.from(document.querySelectorAll('#color-filter input:checked'))
+        .map(cb => cb.value.toLowerCase());
+    const location = document.getElementById("location-filter").value;
     const date = document.getElementById("filter-date").value;
 
     const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
@@ -142,8 +145,8 @@ function applyFilter() {
 
     const filteredItems = allItems.filter((item) => {
         const categoryMatch = category === "all" || item.category.toLowerCase() === category;
-        const colorMatch = !color || (item.color && item.color.toLowerCase().includes(color));
-        const locationMatch = !location || item.location.toLowerCase().includes(location);
+        const colorMatch = selectedColors.length === 0 || (item.color && selectedColors.includes(item.color.toLowerCase()));
+        const locationMatch = location === "all" || item.location === location;
         const dateMatch = !date || item.date === date;
         return categoryMatch && colorMatch && locationMatch && dateMatch;
     });
@@ -152,24 +155,27 @@ function applyFilter() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
-    const foundItems = JSON.parse(localStorage.getItem("foundItems")) || [];
-    renderItems([...lostItems, ...foundItems], "reported-items-container");
+    const lostForm = document.getElementById("lost-item-form");
+    const foundForm = document.getElementById("found-item-form");
+
+    if (lostForm) {
+        lostForm.addEventListener("submit", (event) => submitItem(event, "lostItems"));
+    }
+
+    if (foundForm) {
+        foundForm.addEventListener("submit", (event) => submitItem(event, "foundItems"));
+    }
 
     const filterButton = document.getElementById("apply-filter-btn");
     if (filterButton) {
         filterButton.addEventListener("click", applyFilter);
     }
+
+    // Render all on index only
+    const itemsContainer = document.getElementById("reported-items-container");
+    if (itemsContainer) {
+        const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
+        const foundItems = JSON.parse(localStorage.getItem("foundItems")) || [];
+        renderItems([...lostItems, ...foundItems], "reported-items-container");
+    }
 });
-
-if (document.getElementById("lost-item-form")) {
-    document.getElementById("lost-item-form").addEventListener("submit", (event) =>
-        submitItem(event, "lostItems")
-    );
-}
-
-if (document.getElementById("found-item-form")) {
-    document.getElementById("found-item-form").addEventListener("submit", (event) =>
-        submitItem(event, "foundItems")
-    );
-}
