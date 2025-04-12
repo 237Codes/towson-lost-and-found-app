@@ -22,7 +22,7 @@
     <h1>Report a Lost Item</h1>
 
     <div class="form-container">
-        <form id="lost-item-form">
+        <form id="lost-item-form" enctype="multipart/form-data">
             <label for="name">Full Name:</label>
             <input type="text" id="name" required />
 
@@ -52,7 +52,7 @@
             <textarea id="description" rows="4" required></textarea>
 
             <label for="photo">Upload Photo:</label>
-            <input type="file" id="photo" />
+            <input type="file" id="photo" name="photo"><br><br>
 
             <label for="location">Last Known Location:</label>
             <select id="location" required>
