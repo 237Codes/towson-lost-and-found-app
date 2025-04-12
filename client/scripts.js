@@ -8,6 +8,9 @@ function submitItem(event, key) {
     const category = document.getElementById("category").value.trim();
     const color = document.getElementById("color").value.trim();
     const description = document.getElementById("description").value.trim();
+    const photo = document.getElementById("photo").files[0]
+        ? URL.createObjectURL(document.getElementById("photo").files[0])
+        : "assets/placeholder.png";
     const location = document.getElementById("location").value.trim();
     const date = document.getElementById("date").value.trim();
     const dropoff = document.getElementById("dropoff")?.value.trim() || "Not specified";
@@ -22,6 +25,10 @@ function submitItem(event, key) {
         return;
     }
 
+    const reader = new FileReader();
+    reader.onloadend = function () {
+        const photo = reader.result || "assets/placeholder.png";
+
     const newItem = {
         name,
         email,
@@ -30,51 +37,31 @@ function submitItem(event, key) {
         category,
         color,
         description,
+        photo,
         location,
         date,
         dropoff,
         contactMethod,
         canContact,
         verificationTip,
-        photo: "", // Will be set below
     };
 
-    function convertToBase64(file, callback) {
-        const reader = new FileReader();
-        reader.onload = () => callback(reader.result);
-        reader.readAsDataURL(file);
+    const items = JSON.parse(localStorage.getItem(key)) || [];
+
+    const exists = items.some(
+        (item) => item.itemName === newItem.itemName && item.date === newItem.date && item.location === newItem.location
+    );
+    if (exists) {
+        alert("This item has already been reported.");
+        return;
     }
-
-    function saveItemWithPhoto(photoDataUrl) {
-        newItem.photo = photoDataUrl || "assets/placeholder.png";
-
-        const items = JSON.parse(localStorage.getItem(key)) || [];
-        const exists = items.some(
-            (item) =>
-                item.itemName === newItem.itemName &&
-                item.date === newItem.date &&
-                item.location === newItem.location
-        );
-        if (exists) {
-            alert("This item has already been reported.");
-            return;
-        }
 
         items.push(newItem);
         localStorage.setItem(key, JSON.stringify(items));
 
-        event.target.reset();
-        renderItems(items, "reported-items-container");
-        alert(`${key === "lostItems" ? "Lost" : "Found"} item successfully reported!`);
-    }
-
-    if (file) {
-        convertToBase64(file, (base64Image) => {
-            saveItemWithPhoto(base64Image);
-        });
-    } else {
-        saveItemWithPhoto(null);
-    }
+    event.target.reset();
+    renderItems(items, "reported-items-container");
+    alert(`${key === "lostItems" ? "Lost" : "Found"} item successfully reported!`);
 }
 
 function renderItems(items, containerId) {
@@ -93,8 +80,6 @@ function renderItems(items, containerId) {
 
         const status = (localStorage.getItem("lostItems") || "").includes(JSON.stringify(item)) ? "lost" : "found";
         const dateLabel = status === "found" ? "Date Found" : "Date Lost";
-
-
         const actionLabel = status === "lost" ? "Mark as Found" : "Claim Item";
 
         itemDiv.innerHTML = `

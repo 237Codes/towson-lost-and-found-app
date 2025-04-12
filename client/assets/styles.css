@@ -1,3 +1,5 @@
+/* Main stylesheet for TU Lost and Found website */
+
 body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     margin: 0;
@@ -9,26 +11,30 @@ html {
     background-size: cover;
 }
 
-/* Navbar */
+/* Navigation Bar */
 nav {
     background-color: #050505;
-    padding: 10px;
+    padding: 20px 0;
     width: 100%;
-    position: relative;
-    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 nav ul {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding-left: 20px;
     display: flex;
-    gap: 20px;
+    gap: 50px;
 }
 
 nav ul li a {
     color: rgb(236, 205, 30);
     text-decoration: none;
+    font-size: 22px;
+    font-weight: bold;
 }
 
 nav ul li a:hover {
@@ -44,8 +50,8 @@ nav ul li a:hover {
     width: 300px;
     height: 108px;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 80px;
+    right: 20px;
     z-index: 1;
 }
 
@@ -53,8 +59,10 @@ nav ul li a:hover {
 h1 {
     color: #f1f1ef;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 200px;
     padding: 10px;
+    font-size: 80px;
+    font-weight: bold;
 }
 
 /* Form Styling */
@@ -85,7 +93,9 @@ h1 {
     font-size: 16px;
 }
 
-button {
+/* Buttons */
+button,
+button.action-btn {
     background-color: #eccd1e;
     color: #000;
     border: none;
@@ -96,11 +106,18 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+button.action-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+button:hover,
+button.action-btn:hover {
     background-color: #ffd700;
 }
 
-/* Flip Cards (for index.html) */
+/* Reported Items Section */
 #reported-items-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -110,11 +127,10 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     max-width: 1000px;
-    margin-top: 300px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 450px;
 }
 
+/* Reported Item Cards */
 .reported-item {
     perspective: 1000px;
     width: 300px;
@@ -161,20 +177,12 @@ button:hover {
     overflow-y: auto;
 }
 
-button.action-btn {
-    margin-top: 10px;
-    background-color: #eccd1e;
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button.action-btn:hover {
-    background-color: #ffd700;
+/* Filter Sidebar */
+.filter-sidebar {
+    width: 200px;
+    background-color: #f3f3f2;
+    margin-left: 20px;
+    float: left;
 }
 
 .item-image-wrapper {
