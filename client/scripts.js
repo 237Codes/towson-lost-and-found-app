@@ -8,6 +8,8 @@ function submitItem(event, key) {
     const category = document.getElementById("category").value.trim();
     const selectedColors = Array.from(document.querySelectorAll('#color-filter input:checked'))
     .map(cb => cb.value.toLowerCase());
+    const brandInput = document.getElementById("brand");
+    const brand = brandInput ? brandInput.value.trim() : "";
     const description = document.getElementById("description").value.trim();
     const locationInput = document.getElementById("location");
     const location = locationInput ? locationInput.value : "";  
@@ -46,6 +48,7 @@ function submitItem(event, key) {
             contactMethod,
             canContact,
             verificationTip,
+            brand,
         };
 
         const items = JSON.parse(localStorage.getItem(key)) || [];
@@ -114,6 +117,7 @@ function renderItems(items, containerId) {
                     <p><strong>Category:</strong> ${item.category}</p>
                     <p><strong>${dateLabel}:</strong> ${item.date}</p>
                     <p><strong>Location:</strong> ${item.location}</p>
+                    <p><strong>Brand:</strong> ${item.brand || "Not specified"}</p>
                     <p><strong>Description:</strong> ${item.description}</p>
                     <p><strong>Color:</strong> ${item.color || "Not specified"}</p>
                     <p><strong>Dropoff Location:</strong> ${item.dropoff}</p>
@@ -135,7 +139,7 @@ function applyFilter() {
         .map(cb => cb.value.toLowerCase());
     const location = document.getElementById("location-filter").value;
     const date = document.getElementById("filter-date").value;
-
+    const brand = document.getElementById("brand-filter").value.toLowerCase();
     const lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
     const foundItems = JSON.parse(localStorage.getItem("foundItems")) || [];
 
@@ -153,7 +157,8 @@ function applyFilter() {
         const colorMatch = selectedColors.length === 0 || (item.color && selectedColors.includes(item.color.toLowerCase()));
         const locationMatch = location === "all" || item.location === location;
         const dateMatch = !date || item.date === date;
-        return categoryMatch && colorMatch && locationMatch && dateMatch;
+        const brandMatch = !brand || (item.brand && item.brand.toLowerCase().includes(brand));
+        return categoryMatch && colorMatch && locationMatch && dateMatch && brandMatch;
     });
 
     renderItems(filteredItems, "reported-items-container");
