@@ -12,6 +12,11 @@ function submitItem(event, key) {
     const locationInput = document.getElementById("location");
     const location = locationInput ? locationInput.value : "";  
     const date = document.getElementById("date").value.trim();
+    const today = new Date().toISOString().split("T")[0];
+    if (date > today) {
+        alert("The date cannot be in the future.");
+        return;
+    }
     const dropoff = document.getElementById("dropoff")?.value.trim() || "Not specified";
     const contactMethod = document.getElementById("contact-method").value.trim();
     const canContact = document.getElementById("can-contact")?.checked || false;
@@ -155,6 +160,13 @@ function applyFilter() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Limit date to today
+    const dateInput = document.getElementById("date");
+    if (dateInput) {
+        const today = new Date().toISOString().split("T")[0]; // e.g., "2025-04-11"
+        dateInput.setAttribute("max", today);
+    }
+    
     const lostForm = document.getElementById("lost-item-form");
     const foundForm = document.getElementById("found-item-form");
 
