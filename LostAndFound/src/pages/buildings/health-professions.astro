@@ -1,0 +1,16 @@
+---
+import BuildingPage from "@/components/pages/Buildings";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Health Professions">
+  <BuildingPage
+    imageUrl="/images/health.jpg"
+    imageAlt="Health Professions"
+    title="Health Professions"
+    description="Welcome to the Health Professions page!"
+    address="123 Main St, Towson University"
+    number="123-456-7890"
+    client:load
+  />
+</Layout>

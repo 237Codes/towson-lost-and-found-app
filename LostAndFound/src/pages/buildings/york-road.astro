@@ -1,0 +1,16 @@
+---
+import BuildingPage from "@/components/pages/Buildings";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="York Road">
+  <BuildingPage
+    imageUrl="/images/york.jpg"
+    imageAlt="York Road"
+    title="York Road"
+    description="Welcome to the York Road page!"
+    address="123 Main St, Towson University"
+    number="123-456-7890"
+    client:load
+  />
+</Layout>
