@@ -50,7 +50,7 @@ All work has to go through the structured process below.
 
 - **Must reference an Issue** using GitHub syntax:
   ```
-  Fixes #<issue-number>, Closes #<issue-number>
+  Fixes #<issue-number>, or Closes #<issue-number>
   ```
 - Must be **peer reviewed**
 - Must resolve all **review conversations**
