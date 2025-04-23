@@ -63,7 +63,7 @@ All work has to go through the structured process below.
 - Keep PRs **small and focused**
 - Write **clear commit messages**
 - Leave **comments** on complex logic
-- Always **test** your changes locally
+- Always **test** your changes locally.
 
 ---
 
