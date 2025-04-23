@@ -9,7 +9,7 @@ All work has to go through the structured process below.
 ### 🔒 Protected Branches
 
 - The following branches are **protected**:  
-  `astro`
+  `main` and `astro`
 - You **cannot push directly** to these branches
 - All changes must be submitted via **Pull Requests (PRs)**
 
@@ -69,7 +69,7 @@ All work has to go through the structured process below.
 
 ### 🚫 Don’t
 
-- ❌ Don’t push to `astro`
+- ❌ Don’t push to `astro` or `main`
 - ❌ Don’t merge PRs without linking an Issue
 - ❌ Don’t ignore code review feedback
 
