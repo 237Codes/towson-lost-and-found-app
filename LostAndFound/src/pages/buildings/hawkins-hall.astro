@@ -1,0 +1,16 @@
+---
+import BuildingPage from "@/components/pages/Buildings";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Hawkins Hall">
+  <BuildingPage
+    imageUrl="/images/hawkins.jpg"
+    imageAlt="Hawkins Hall"
+    title="Hawkins Hall"
+    description="Welcome to the Hawkins Hall page!"
+    address="123 Main St, Towson University"
+    number="123-456-7890"
+    client:load
+  />
+</Layout>
