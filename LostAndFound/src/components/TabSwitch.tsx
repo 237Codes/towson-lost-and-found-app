@@ -13,7 +13,7 @@ const TabSwitch = ({ activeTab }: TabSwitchProps) => {
             : "bg-white text-gray-700 hover:bg-gray-100"
             }`}
         >
-          Report Lost Item
+          Login
         </a>
         <a
           href="/report-found"
@@ -22,7 +22,7 @@ const TabSwitch = ({ activeTab }: TabSwitchProps) => {
             : "bg-white text-gray-700 hover:bg-gray-100"
             }`}
         >
-          Report Found Item
+          Signup
         </a>
       </div>
     </div>
