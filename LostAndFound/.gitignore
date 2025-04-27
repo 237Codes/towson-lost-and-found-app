@@ -25,3 +25,5 @@ pnpm-debug.log*
 .idea/
 
 .prettierrc
+/package-lock.json
+package-lock.json/

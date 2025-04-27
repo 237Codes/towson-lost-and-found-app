@@ -7,7 +7,7 @@ const TabSwitch = ({ activeTab }: TabSwitchProps) => {
     <div className="mb-6 flex justify-center">
       <div className="flex rounded-md border border-gray-300">
         <a
-          href="/report-lost"
+          href="/login"
           className={`px-6 py-2 ${activeTab === "lost"
             ? "bg-yellow-500 text-white"
             : "bg-white text-gray-700 hover:bg-gray-100"
