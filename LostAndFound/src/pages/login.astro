@@ -1,7 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 ---
-
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+</head>
 
 <Layout title="Login - TU Lost and Found">
   <main class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
@@ -89,11 +92,26 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
+import Toastify from 'toastify-js'; 
   const form = document.getElementById('login-form') as HTMLFormElement;
   const errorDiv = document.getElementById('error-message') as HTMLDivElement;
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
   const buttonText = document.getElementById('button-text') as HTMLSpanElement;
   const loadingSpinner = document.getElementById('loading-spinner') as HTMLSpanElement;
+
+  function showSuccessToast() {
+    Toastify({
+      text: "Successfully logged in!",
+      duration: 2000,
+      gravity: "bottom",
+      position: "right",
+      style: {
+        background: "#FFB800",
+        color: "white",
+        borderRadius: "8px",
+      },
+    }).showToast();
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -131,12 +149,26 @@ import Layout from "../layouts/Layout.astro";
         sessionStorage.setItem('user', JSON.stringify(data.user));
       }
 
+      // Show success message
+      showSuccessToast();
+
       // Redirect to homepage on success
-      window.location.href = '/report-lost';
+      setTimeout(() => {
+        window.location.href = '/report-lost';
+      }, 2000);
     } catch (error) {
-      // Show error message
-      errorDiv.textContent = error instanceof Error ? error.message : 'An unexpected error occurred';
-      errorDiv.classList.remove('hidden');
+      // Show error toast instead of error div
+      Toastify({
+        text: error instanceof Error ? error.message : 'An unexpected error occurred',
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#EF4444",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
       
       // Reset button state
       submitBtn.disabled = false;
