@@ -57,15 +57,15 @@ Key files:
    Create a `.env` file in the server directory (Credentials available upon request from Manny):
    ```env
    # Database Configuration
-   DB_HOST=localhost
-   DB_USER=your_mysql_username
-   DB_PASSWORD=your_mysql_password
-   DB_NAME=towson_lost_found
-   DB_PORT=3306
+   DB_HOST=
+   DB_USER=
+   DB_PASSWORD=
+   DB_NAME=
+   DB_PORT=
 
    # Email Service (for verification emails)
-   GMAIL_USER=your_gmail@gmail.com
-   GMAIL_APP_PASSWORD=your_app_specific_password
+   GMAIL_USER=
+   GMAIL_APP_PASSWORD=
    ```
 
 ### Starting the Server
