@@ -2,6 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+</head>
+
 <Layout title="Sign Up - TU Lost and Found">
   <main class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
     <div class="w-full max-w-md space-y-8">
@@ -14,8 +19,9 @@ import Layout from "../layouts/Layout.astro";
         </p>
       </div>
 
-      <form class="mt-8 space-y-6" action="#" method="POST">
+      <form id="signup-form" class="mt-8 space-y-6">
         <div class="space-y-4">
+          <!-- Name fields -->
           <div class="flex space-x-4">
             <div class="flex-1">
               <label for="firstName" class="sr-only">First Name</label>
@@ -41,6 +47,7 @@ import Layout from "../layouts/Layout.astro";
             </div>
           </div>
 
+          <!-- Email field -->
           <div>
             <label for="email" class="sr-only">Towson Email</label>
             <input
@@ -50,10 +57,25 @@ import Layout from "../layouts/Layout.astro";
               required
               pattern="[a-zA-Z0-9._%+-]+@students\.towson\.edu$"
               class="relative block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
-              placeholder="Towson Email (@students.towson.edu)"
+              placeholder="username@students.towson.edu"
             />
           </div>
 
+          <!-- Phone number field -->
+          <div>
+            <label for="phone" class="sr-only">Phone Number</label>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              pattern="[0-9]{10}"
+              class="relative block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
+              placeholder="Phone Number (10 digits)"
+            />
+            <p class="mt-1 text-sm text-gray-500">Optional, but recommended for item recovery</p>
+          </div>
+
+          <!-- Password fields -->
           <div>
             <label for="password" class="sr-only">Password</label>
             <input
@@ -61,8 +83,9 @@ import Layout from "../layouts/Layout.astro";
               name="password"
               type="password"
               required
+              minlength="8"
               class="relative block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
-              placeholder="Password"
+              placeholder="Password (min. 8 characters)"
             />
           </div>
 
@@ -98,3 +121,100 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </main>
 </Layout>
+
+
+<script>
+  import Toastify from 'toastify-js';
+
+  const form = document.getElementById('signup-form') as HTMLFormElement;
+  const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Signing up...
+    `;
+
+    const formData = new FormData(form);
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirmPassword');
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      Toastify({
+        text: "Passwords do not match!",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#EF4444",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Sign up";
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.get('firstName'),
+          lastName: formData.get('lastName'),
+          tuEmail: formData.get('email'),
+          phone: formData.get('phone'),
+          password: formData.get('password'),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      Toastify({
+        text: "Registration successful! Please check your email for verification.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#FFB800",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+
+      setTimeout(() => {
+        window.location.href = `/verification?email=${formData.get('email')}`;
+      }, 2000);
+
+    } catch (error) {
+      Toastify({
+        text: error instanceof Error ? error.message : "An error occurred",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#EF4444",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Sign up";
+    }
+  });
+</script>

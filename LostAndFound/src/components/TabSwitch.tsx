@@ -16,7 +16,7 @@ const TabSwitch = ({ activeTab }: TabSwitchProps) => {
           Login
         </a>
         <a
-          href="/report-found"
+          href="/signup"
           className={`px-6 py-2 ${activeTab === "found"
             ? "bg-yellow-500 text-white"
             : "bg-white text-gray-700 hover:bg-gray-100"

@@ -6,7 +6,7 @@ const authController = {
   // Register new user
   register: async (req, res) => {
     try {
-      const { firstName, lastName, tuEmail, password } = req.body;
+      const { firstName, lastName, tuEmail, phone, password } = req.body;
 
       // Validate Towson email
       if (!tuEmail.endsWith("@students.towson.edu")) {
@@ -34,9 +34,9 @@ const authController = {
 
       // Create user
       const [result] = await pool.query(
-        `INSERT INTO users (first_name, last_name, tu_email, password_hash) 
-                 VALUES (?, ?, ?, ?)`,
-        [firstName, lastName, tuEmail, passwordHash]
+        `INSERT INTO users (first_name, last_name, tu_email, phone_number, password_hash) 
+                 VALUES (?, ?, ?, ?, ?)`,
+        [firstName, lastName, tuEmail, phone || null, passwordHash]
       );
 
       // Send verification email
