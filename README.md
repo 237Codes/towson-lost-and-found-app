@@ -1,7 +1,7 @@
 # Towson Lost and Found Application
 
 ## 📝 Table of Contents
-- [How to contribute][https://github.com/237Codes/towson-lost-and-found-app/tree/astro]
+- [How to contribute](https://github.com/237Codes/towson-lost-and-found-app/tree/astro)
 - [Prerequisites](#prerequisites)
 - [Running the Server](#️running-the-server-locally)
 - [Running the Client](#running-the-client-application)
