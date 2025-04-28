@@ -1,0 +1,180 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+</head>
+
+<Layout title="Verify Email - TU Lost and Found">
+  <main class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
+    <div class="w-full max-w-md space-y-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900">
+          Verify your email
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+          We sent a verification code to your Towson email
+        </p>
+      </div>
+
+      <form id="verification-form" class="mt-8 space-y-6">
+        <div>
+          <label for="code" class="sr-only">Verification Code</label>
+          <input
+            type="text"
+            id="code"
+            name="code"
+            required
+            maxlength="6"
+            class="relative block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500 text-center text-2xl tracking-widest"
+            placeholder="Enter 6-digit code"
+          />
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="group relative flex w-full justify-center rounded-md border border-transparent bg-yellow-600 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+          >
+            Verify Email
+          </button>
+        </div>
+
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Didn't receive the code?
+          <button
+            type="button"
+            id="resend-btn"
+            class="font-medium text-yellow-600 hover:text-yellow-500"
+          >
+            Resend Code
+          </button>
+        </p>
+      </form>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import Toastify from 'toastify-js';
+
+  const form = document.getElementById('verification-form') as HTMLFormElement;
+  const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const resendBtn = document.getElementById('resend-btn') as HTMLButtonElement;
+  
+  // Get email from URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  const email = urlParams.get('email');
+
+  if (!email) {
+    window.location.href = '/signup';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+
+    const code = (form.elements.namedItem('code') as HTMLInputElement).value;
+
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, code }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Verification failed');
+      }
+
+      // Show success toast
+      Toastify({
+        text: "Email verified successfully! Redirecting to login...",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#FFB800",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+
+      // Redirect to login
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
+
+    } catch (error) {
+      Toastify({
+        text: error instanceof Error ? error.message : "Verification failed",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#EF4444",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Handle resend code
+  resendBtn.addEventListener('click', async () => {
+    resendBtn.disabled = true;
+    
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/resend-verification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to resend code');
+      }
+
+      Toastify({
+        text: "Verification code resent!",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#FFB800",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+
+    } catch (error) {
+      Toastify({
+        text: error instanceof Error ? error.message : "Failed to resend code",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#EF4444",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+    } finally {
+      setTimeout(() => {
+        resendBtn.disabled = false;
+      }, 60000); // Enable resend after 1 minute
+    }
+  });
+</script>
