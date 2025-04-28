@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from "axios";
 
 interface ItemFormProps {
     type: 'lost' | 'found';
@@ -58,20 +59,57 @@ export const ItemForm = ({ type }: ItemFormProps) => {
         "Health"
     ];
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target as HTMLInputElement;
-        if (type === 'checkbox') {
-            const checked = (e.target as HTMLInputElement).checked;
-            setFormData(prev => ({ ...prev, [name]: checked }));
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+        try {
+          const response = await axios.post("/api/report-item", {
+            ...formData,
+            type, // lost or found
+          });
+      
+          if (response.status === 200) {
+            alert("Item reported successfully!");
+            // Reset form after successful submission
+            setFormData({
+              name: '',
+              email: '',
+              phone: '',
+              itemName: '',
+              category: '',
+              colors: [],
+              brand: '',
+              description: '',
+              location: '',
+              date: '',
+              dropoff: '',
+              contactMethod: 'Email',
+              canContact: false,
+              verificationTip: '',
+              confirm: false
+            });
+          } else {
+            alert("Failed to report item. Please try again.");
+          }
+        } catch (error: any) {
+          console.error("Failed to report item:", error);
+          if (error.response?.data?.message) {
+            alert(error.response.data.message);
+          } else {
+            alert("Something went wrong. Please try again later.");
+          }
         }
-    };
+      };          
+
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const target = e.target as any; // <-- safely treat it as any
+      
+        const { name, type, value, checked } = target;
+      
+        setFormData(prev => ({
+          ...prev,
+          [name]: type === 'checkbox' ? checked : value
+        }));
+      };        
 
     const handleColorChange = (color: string) => {
         setFormData(prev => ({
