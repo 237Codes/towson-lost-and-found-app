@@ -30,11 +30,14 @@ const BuildingPage = (props: Props) => {
   const [foundItems, setFoundItems] = useState<ItemProps[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch items on mount and when building title changes
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/items?location=${encodeURIComponent(props.title)}`);
+        const isDev = import.meta.env['DEV'];
+        const baseUrl = isDev ? 'http://localhost:3001' : '';
+        const res = await fetch(`${baseUrl}/api/items?location=${encodeURIComponent(props.title)}`);
         const data = await res.json();
         setLostItems(data.lost || []);
         setFoundItems(data.found || []);
@@ -48,15 +51,27 @@ const BuildingPage = (props: Props) => {
     fetchItems();
   }, [props.title]);
 
-  const filteredLostItems = lostItems.filter((item) =>
-    [item.name, item.description, item.category, item.location]
-      .some((field) => field.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  // Clear search when building changes
+  useEffect(() => {
+    setSearchQuery("");
+  }, [props.title]);
 
-  const filteredFoundItems = foundItems.filter((item) =>
-    [item.name, item.description, item.category, item.location]
-      .some((field) => field.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  // Conditional filtering only when searchQuery exists
+  const filterItems = (items: ItemProps[]) =>
+    !searchQuery
+      ? items
+      : items.filter((item) =>
+          [item.name, item.description, item.category, item.location]
+            .some((field) => field?.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
+
+  const filteredLostItems = filterItems(lostItems);
+  const filteredFoundItems = filterItems(foundItems);
+
+  // Debug logs
+  console.log("🔍 Search Query:", searchQuery);
+  console.log("🔍 Raw Lost Items:", lostItems);
+  console.log("🔍 Filtered Lost Items:", filteredLostItems);
 
   return (
     <div className="flex min-h-screen flex-col p-4">
@@ -91,19 +106,21 @@ const BuildingPage = (props: Props) => {
         <div className="flex rounded-md border border-gray-300">
           <button
             onClick={() => setActiveTab("lost")}
-            className={`px-6 py-2 ${activeTab === "lost"
-              ? "bg-yellow-500 text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
+            className={`px-6 py-2 ${
+              activeTab === "lost"
+                ? "bg-yellow-500 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
           >
             Lost Items
           </button>
           <button
             onClick={() => setActiveTab("found")}
-            className={`px-6 py-2 ${activeTab === "found"
-              ? "bg-yellow-500 text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
+            className={`px-6 py-2 ${
+              activeTab === "found"
+                ? "bg-yellow-500 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
           >
             Found Items
           </button>

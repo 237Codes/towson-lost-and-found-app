@@ -92,4 +92,29 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    const location = req.query.location;
+
+    if (!location) {
+      return res.status(400).json({ success: false, message: "Missing location parameter." });
+    }
+
+    const [lostItems] = await pool.query(
+      "SELECT id, title AS name, category, location_lost AS location, date_lost AS date, description, preferred_contact_method AS contact FROM items WHERE type = 'lost' AND location_lost = ? AND is_returned = 0",
+      [location]
+    );
+    
+    const [foundItems] = await pool.query(
+      "SELECT id, title AS name, category, location_lost AS location, date_lost AS date, description, preferred_contact_method AS contact FROM items WHERE type = 'found' AND location_lost = ? AND is_returned = 0",
+      [location]
+    );    
+
+    res.json({ lost: lostItems, found: foundItems });
+  } catch (error) {
+    console.error("❌ Error fetching items:", error);
+    res.status(500).json({ success: false, message: "Error fetching items", error: error.message });
+  }
+});
+
 module.exports = router;
