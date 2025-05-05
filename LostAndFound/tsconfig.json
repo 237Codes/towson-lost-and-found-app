@@ -10,7 +10,7 @@
       ]
     },
     "lib": [
-      "ESNext"
+      "ESNext", "dom"
     ],
     "target": "ESNext",
     "module": "ESNext",
