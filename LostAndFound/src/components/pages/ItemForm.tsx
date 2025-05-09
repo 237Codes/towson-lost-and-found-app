@@ -45,7 +45,7 @@ export const ItemForm = ({ type }: ItemFormProps) => {
     { name: "Yellow", value: "yellow" }
   ];
 
-  const locations = ["York", "Arts", "LA", "Business", "Science", "Health"];
+  const locations = ["York Rd", "Center for the Arts", "Liberal Arts", "Stephens Hall", "Science Complex", "Health Professions", "10 West/Cyber Center", "University Union", "West Village Commons", "Cook Library", "Linthicum Hall", "Psychology Building", "Van Bokkelen Hall", "Other"];
 
   const handleSubmit = async (e: React.FormEvent) => {
     console.log("📨 handleSubmit triggered!");
