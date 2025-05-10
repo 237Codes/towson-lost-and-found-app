@@ -21,7 +21,8 @@ export const ItemForm = ({ type }: ItemFormProps) => {
     contactMethod: 'Email',
     canContact: false,
     verificationTip: '',
-    confirm: false
+    confirm: false,
+    photo_base64: ''
   });
 
   const categories = [
@@ -106,6 +107,20 @@ export const ItemForm = ({ type }: ItemFormProps) => {
     }));
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+  
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({
+        ...prev,
+        photo_base64: reader.result?.toString() || ''
+      }));
+    };
+    reader.readAsDataURL(file);
+  };  
+
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
       <InputField label="Full Name" id="name" name="name" value={formData.name} onChange={handleChange} required />
@@ -121,6 +136,10 @@ export const ItemForm = ({ type }: ItemFormProps) => {
 
       <InputField label="Brand (optional)" id="brand" name="brand" value={formData.brand} onChange={handleChange} />
       <TextareaField label="Detailed Description" id="description" name="description" value={formData.description} onChange={handleChange} required />
+      
+      <InputField label="Upload Image (optional)" id="photo" name="photo" type="file" accept="image/*" onChange={handleImageUpload}/>
+
+
       <InputField label="Where Item Has Been Dropped Off (if any)" id="dropoff" name="dropoff" value={formData.dropoff} onChange={handleChange} />
 
       <SelectField label="Preferred Contact Method" name="contactMethod" value={formData.contactMethod} onChange={handleChange} options={["Email", "Phone"]} />

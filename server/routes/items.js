@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
       canContact,
       verificationTip,
       type,
+      photo_base64,
     } = req.body;
 
     if (!name || !email || !itemName || !description || !location || !date || !type) {
@@ -56,8 +57,8 @@ router.post("/", async (req, res) => {
       `INSERT INTO items 
        (user_id, type, title, category, color, brand, description, location_lost, date_lost, 
         drop_off_location, preferred_contact_method, allow_contact, verification_tip, 
-        is_returned, is_high_value, created_at) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, NOW())`,
+        photo_base64, is_returned, is_high_value, created_at) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user_id,
         clean(type),
@@ -72,8 +73,12 @@ router.post("/", async (req, res) => {
         clean(contactMethod),
         canContact ? 1 : 0,
         clean(verificationTip),
+        clean(photo_base64),
+        0, // is_returned
+        0, // is_high_value
+        new Date() // created_at
       ]
-    );
+    );    
 
     console.log(`✅ Inserted item ID ${result.insertId} for user ID ${user_id}`);
     res.status(201).json({ success: true, item_id: result.insertId });
@@ -114,6 +119,7 @@ router.get("/", async (req, res) => {
          location_lost AS location,
          date_lost AS date,
          description,
+         photo_base64 AS image,
          preferred_contact_method AS contact
        FROM items
        ${whereSQL}

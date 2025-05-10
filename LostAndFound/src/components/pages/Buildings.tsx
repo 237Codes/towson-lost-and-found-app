@@ -39,17 +39,26 @@ const BuildingPage = (props: Props) => {
         const baseUrl = isDev ? 'http://localhost:3001' : '';
         const res = await fetch(`${baseUrl}/api/items?location=${encodeURIComponent(props.title)}`);
         const data = await res.json();
-        setLostItems(data.lost || []);
-        setFoundItems(data.found || []);
+  
+        const normalizeImages = (items: ItemProps[]) =>
+          items.map(item => ({
+            ...item,
+            image: item.image && !item.image.startsWith("data:image")
+              ? `data:image/jpeg;base64,${item.image}`
+              : item.image
+          }));
+  
+        setLostItems(normalizeImages(data.lost || []));
+        setFoundItems(normalizeImages(data.found || []));
       } catch (err) {
         console.error("Error fetching items:", err);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchItems();
-  }, [props.title]);
+  }, [props.title]);  
 
   // Clear search when building changes
   useEffect(() => {
