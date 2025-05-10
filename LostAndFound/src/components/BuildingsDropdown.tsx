@@ -81,12 +81,28 @@ const BuildingsDropdown = () => {
                   Hawkins Hall
                 </a>
               </li>
-              <li>
+              <li className="mb-4">
                 <a
                   href="/buildings/psychology-building"
                   className="hover:text-yellow-600"
                 >
                   Psychology Building
+                </a>
+              </li>
+              <li className="mb-4">
+                <a
+                  href="/buildings/ten-west"
+                  className="hover:text-yellow-600"
+                >
+                  Ten West
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/buildings/west-village-commons"
+                  className="hover:text-yellow-600"
+                >
+                  West Village Commons
                 </a>
               </li>
             </ul>

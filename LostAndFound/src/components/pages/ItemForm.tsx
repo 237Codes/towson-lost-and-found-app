@@ -16,6 +16,7 @@ export const ItemForm = ({ type }: ItemFormProps) => {
     brand: '',
     description: '',
     location: '',
+    customLocation: '',
     date: '',
     dropoff: '',
     contactMethod: 'Email',
@@ -26,8 +27,25 @@ export const ItemForm = ({ type }: ItemFormProps) => {
   });
 
   const categories = [
-    "Electronics", "Clothing", "ID Cards", "Keys", "Accessories", "Other"
-  ];
+    "Electronics",
+    "Clothing",
+    "ID Cards",
+    "Keys",
+    "Accessories",
+    "Backpacks/Bags",
+    "Books/Notebooks",
+    "Jewelry",
+    "Eyewear",
+    "Water Bottles",
+    "Headphones/Earbuds",
+    "Chargers/Cables",
+    "Footwear",
+    "Sports Equipment",
+    "Musical Instruments",
+    "Wallets",
+    "Cash",
+    "Other"
+  ];  
 
   const colors = [
     { name: "Beige", value: "#f5f5dc" },
@@ -46,7 +64,18 @@ export const ItemForm = ({ type }: ItemFormProps) => {
     { name: "Yellow", value: "yellow" }
   ];
 
-  const locations = ["York Rd", "Center for the Arts", "Liberal Arts", "Stephens Hall", "Science Complex", "Health Professions", "10 West/Cyber Center", "University Union", "West Village Commons", "Cook Library", "Linthicum Hall", "Psychology Building", "Van Bokkelen Hall", "Other"];
+  const locations = [
+    "Stephens Hall",
+    "Science Complex",
+    "Health Professions",
+    "University Union",
+    "Center For The Arts",
+    "Liberal Arts Building",
+    "York Rd",
+    "Hawkins Hall",
+    "Psychology Building",
+    "Other"
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     console.log("📨 handleSubmit triggered!");
@@ -130,7 +159,9 @@ export const ItemForm = ({ type }: ItemFormProps) => {
 
       <SelectField label="Category" name="category" value={formData.category} onChange={handleChange} required options={categories} />
       <SelectField label={`Location ${type === 'lost' ? 'Lost' : 'Found'}`} name="location" value={formData.location} onChange={handleChange} required options={locations} />
-      <InputField label={`Date ${type === 'lost' ? 'Lost' : 'Found'}`} id="date" name="date" type="date" value={formData.date} onChange={handleChange} required />
+      {formData.location === "Other" && (<InputField label="Enter Custom Location" id="customLocation" name="customLocation" value={formData.customLocation || ""} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData((prev) => ({ ...prev, customLocation: e.target.value }))}required />)}  
+      
+      <InputField label={`Date ${type === 'lost' ? 'Lost' : 'Found'}`} id="date" name="date" type="date" value={formData.date} onChange={handleChange} required max={new Date().toISOString().split("T")[0]} />
 
       <ColorCheckboxGroup selected={formData.colors} onChange={handleColorChange} colors={colors} />
 
@@ -139,8 +170,7 @@ export const ItemForm = ({ type }: ItemFormProps) => {
       
       <InputField label="Upload Image (optional)" id="photo" name="photo" type="file" accept="image/*" onChange={handleImageUpload}/>
 
-
-      <InputField label="Where Item Has Been Dropped Off (if any)" id="dropoff" name="dropoff" value={formData.dropoff} onChange={handleChange} />
+      <SelectField label="Where Item Has Been Dropped Off (if any)" name="dropoff" value={formData.dropoff} onChange={handleChange} options={locations} />
 
       <SelectField label="Preferred Contact Method" name="contactMethod" value={formData.contactMethod} onChange={handleChange} options={["Email", "Phone"]} />
       <CheckboxField label="I am willing to be contacted for pickup details" id="canContact" name="canContact" checked={formData.canContact} onChange={handleChange} />

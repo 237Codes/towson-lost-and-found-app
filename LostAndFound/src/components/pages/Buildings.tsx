@@ -94,7 +94,7 @@ const BuildingPage = (props: Props) => {
             <img
               src={props.imageUrl}
               alt={props.imageAlt || "Building image"}
-              className="mb-4 h-48 w-full rounded-lg object-cover shadow-md"
+              className="mb-4 max-h-80 w-full rounded-lg object-contain object-center shadow-md"
             />
           )}
           <div className="mt-4 flex w-full flex-col space-y-3 md:flex-row md:items-center md:justify-center md:space-x-8 md:space-y-0">
