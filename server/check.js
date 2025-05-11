@@ -1,7 +1,7 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const mysql = require("mysql2/promise");
+require("dotenv").config();
 
-async function inspectImageData() {
+async function checkColorValues() {
   try {
     const connection = await mysql.createConnection({
       host: process.env.DB_HOST,
@@ -11,22 +11,19 @@ async function inspectImageData() {
       port: process.env.PORT ? parseInt(process.env.PORT) : 3306,
     });
 
-    const [rows] = await connection.query(
-      "SELECT LENGTH(photo_base64) AS length, LEFT(photo_base64, 50) AS preview FROM items WHERE title = ?",
-      ['Cow']
-    );
+    const [rows] = await connection.query(`
+      SELECT DISTINCT color FROM items WHERE color IS NOT NULL AND color != ''
+    `);
 
-    if (rows.length > 0) {
-      console.log("\n📏 Stored base64 length:", rows[0].length);
-      console.log("🔍 First 50 characters:\n", rows[0].preview);
-    } else {
-      console.log("❌ No item found with title 'Cactus'");
-    }
+    console.log("🎨 Distinct color values found in 'items' table:");
+    rows.forEach((row, i) => {
+      console.log(`${i + 1}. ${row.color}`);
+    });
 
     await connection.end();
   } catch (error) {
-    console.error("❌ Error inspecting image data:", error.message);
+    console.error("❌ Error fetching color values:", error.message);
   }
 }
 
-inspectImageData();
+checkColorValues();
