@@ -1,13 +1,3 @@
-/**
- * Toast Context Utilities
- * -----------------------
- * Custom toast notification system inspired by `react-hot-toast`.
- * - Manages toast lifecycle: add, update, dismiss, and remove.
- * - Enforces a single-toast display limit (`TOAST_LIMIT`).
- * - `useToast` hook provides state and control methods to components.
- * - Includes centralized `dispatch` and `reducer` logic for global state updates.
- */
-
 "use client"
 
 // Inspired by react-hot-toast library

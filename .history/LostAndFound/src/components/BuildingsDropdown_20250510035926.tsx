@@ -1,11 +1,3 @@
-/**
- * BuildingsDropdown Component
- * ---------------------------
- * Renders a toggleable dropdown menu listing campus buildings.
- * - Clicking the "Buildings" button reveals a styled list of building links.
- * - Used for navigation to building-specific lost & found pages.
- */
-
 import { useState } from "react";
 
 const BuildingsDropdown = () => {

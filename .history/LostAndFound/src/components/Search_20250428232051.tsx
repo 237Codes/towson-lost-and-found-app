@@ -1,12 +1,3 @@
-/**
- * Search Component
- * ----------------
- * Renders a search input and submit button for keyword queries.
- * - Tracks input state locally and logs search term on submit.
- * - Accessible form with proper ARIA labeling.
- * - Styled with Towson-themed yellow and responsive layout.
- */
-
 import React, { useState } from "react";
 
 const Search = () => {

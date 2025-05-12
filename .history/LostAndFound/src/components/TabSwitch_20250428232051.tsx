@@ -1,11 +1,3 @@
-/**
- * TabSwitch Component
- * -------------------
- * Renders a two-tab UI for switching between Login and Signup routes.
- * - Highlights the active tab using `activeTab` prop ("lost" or "found").
- * - Styled with Towson-themed yellow for active state.
- */
-
 interface TabSwitchProps {
   activeTab: "lost" | "found";
 }

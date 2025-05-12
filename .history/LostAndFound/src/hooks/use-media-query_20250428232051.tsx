@@ -1,12 +1,3 @@
-/**
- * useMediaQuery Hook
- * ------------------
- * Custom hook for matching CSS media queries.
- * - Accepts a media query string (e.g., "(min-width: 768px)").
- * - Returns a boolean indicating if the query currently matches.
- * - Subscribes to media query changes and updates reactively.
- */
-
 import * as React from "react";
 
 // https://github.com/shadcn-ui/ui/blob/main/apps/www/hooks/use-media-query.tsx
