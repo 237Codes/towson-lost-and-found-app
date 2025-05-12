@@ -44,7 +44,6 @@ const BuildingPage = (props: Props) => {
   const [foundItems, setFoundItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch lost/found items for this building
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
@@ -54,7 +53,6 @@ const BuildingPage = (props: Props) => {
         const res = await fetch(`${baseUrl}/api/items?location=${encodeURIComponent(props.title)}`);
         const data = await res.json();
 
-        // Normalize raw API data into Item[] shape
         const normalize = (items: any[], type: "lost" | "found"): Item[] =>
           items.map(item => ({
             id: String(item.id),
@@ -85,14 +83,12 @@ const BuildingPage = (props: Props) => {
     fetchItems();
   }, [props.title]);
 
-  // Reset filters when the page (building) changes
   useEffect(() => {
     setSearchQuery("");
     setSelectedCategory("");
     setSelectedColor("");
   }, [props.title]);
 
-  // Filtering logic for items
   const filterItems = (items: Item[]) =>
     items.filter(item => {
       const matchesSearch = [item.name, item.description, item.category, item.location]

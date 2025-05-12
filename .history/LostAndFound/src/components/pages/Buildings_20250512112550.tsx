@@ -92,7 +92,6 @@ const BuildingPage = (props: Props) => {
     setSelectedColor("");
   }, [props.title]);
 
-  // Filtering logic for items
   const filterItems = (items: Item[]) =>
     items.filter(item => {
       const matchesSearch = [item.name, item.description, item.category, item.location]
