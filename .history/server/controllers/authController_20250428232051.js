@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { pool } = require("../db");
-const EmailService = require("../emailverify/emailService");
+const EmailService = require("../emailverify/EmailService");
 
 const authController = {
   // Register new user
