@@ -1,6 +1,5 @@
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import vercel from "@astrojs/vercel/serverless";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
@@ -11,11 +10,10 @@ export default defineConfig({
     }),
     react(),
   ],
-  output: "server", 
-  adapter: vercel(), 
+  output: "server",
   server: {
     proxy: {
-      '/api': 'http://localhost:3001', // Proxy API calls in dev only
+      '/api': 'http://localhost:3001', // Proxy all API calls to Express backend
     },
   },
   security: {
