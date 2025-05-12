@@ -1,0 +1,70 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="relative min-h-screen w-full bg-white overflow-hidden">
+    <!-- Abstract scattered shapes -->
+    <div class="abstract-shape bg-[#ffb800] top-[10%] left-[5%] w-60 h-60 rotate-[12deg] animate-bob delay-100"></div>
+    <div class="abstract-shape bg-black top-[25%] right-[8%] w-40 h-40 rotate-[-10deg] opacity-20 animate-bob-slow delay-300"></div>
+    <div class="abstract-shape bg-[#facc15] bottom-[15%] left-[15%] w-52 h-52 rotate-[25deg] opacity-30 animate-bob delay-200"></div>
+    <div class="abstract-shape bg-[#ffb800] bottom-[5%] right-[10%] w-44 h-44 rotate-[8deg] opacity-10 animate-bob-slower"></div>
+
+    <!-- Login form -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen px-4">
+      <div class="w-full max-w-md">
+        <LoginForm client:load />
+      </div>
+    </div>
+  </main>
+
+  <style is:global>
+    .abstract-shape {
+      @apply absolute rounded-[40%] blur-sm opacity-20 mix-blend-multiply;
+      clip-path: polygon(0 0, 100% 15%, 85% 100%, 15% 85%);
+    }
+
+    @keyframes bob {
+      0%, 100% {
+        transform: translateY(0) rotate(var(--tw-rotate));
+      }
+      50% {
+        transform: translateY(12px) rotate(var(--tw-rotate));
+      }
+    }
+
+    @keyframes bob-slow {
+      0%, 100% {
+        transform: translateY(0) rotate(var(--tw-rotate));
+      }
+      50% {
+        transform: translateY(20px) rotate(var(--tw-rotate));
+      }
+    }
+
+    .animate-bob {
+      animation: bob 16s ease-in-out infinite;
+    }
+
+    .animate-bob-slow {
+      animation: bob-slow 22s ease-in-out infinite;
+    }
+
+    .animate-bob-slower {
+      animation: bob-slow 30s ease-in-out infinite;
+    }
+
+    .delay-100 {
+      animation-delay: 1s;
+    }
+
+    .delay-200 {
+      animation-delay: 2s;
+    }
+
+    .delay-300 {
+      animation-delay: 3s;
+    }
+  </style>
+</Layout>

@@ -1,0 +1,17 @@
+---
+import SignupForm from "@/components/SignupForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Sign Up - TU Lost and Found">
+  <main
+    class="relative min-h-screen w-full bg-[url('/images/tu-background.png')] bg-no-repeat bg-cover bg-center"
+  >
+    <!-- Optional: slight overlay for readability -->
+    <div class="absolute inset-0 bg-white/80 z-0"></div>
+
+    <div class="relative z-10 flex items-center justify-center min-h-screen px-4">
+      <SignupForm client:load />
+    </div>
+  </main>
+</Layout>

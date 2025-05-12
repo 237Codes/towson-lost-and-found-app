@@ -1,0 +1,56 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="relative min-h-screen w-full overflow-hidden bg-white px-4 py-12">
+    <!-- Angular floating shapes -->
+    <div class="shape bg-yellow-400 top-[5%] left-[10%] rotate-[15deg] animate-float-slow z-0"></div>
+    <div class="shape bg-yellow-600 top-[60%] left-[5%] rotate-[10deg] animate-float-slower z-0"></div>
+    <div class="shape bg-black top-[30%] right-[5%] rotate-[-10deg] opacity-10 animate-float-slow z-0"></div>
+
+    <!-- Login Form -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen">
+      <div class="max-w-md w-full">
+        <LoginForm client:load />
+      </div>
+    </div>
+  </main>
+
+  <style is:global>
+    .shape {
+      position: absolute;
+      width: 200px;
+      height: 120px;
+      clip-path: polygon(0% 0%, 100% 10%, 100% 100%, 0% 90%);
+      opacity: 0.1;
+    }
+
+    @keyframes float-slow {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(12px);
+      }
+    }
+
+    @keyframes float-slower {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(20px);
+      }
+    }
+
+    .animate-float-slow {
+      animation: float-slow 12s ease-in-out infinite;
+    }
+
+    .animate-float-slower {
+      animation: float-slower 18s ease-in-out infinite;
+    }
+  </style>
+</Layout>

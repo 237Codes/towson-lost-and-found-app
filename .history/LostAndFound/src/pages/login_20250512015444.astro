@@ -1,0 +1,24 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="relative min-h-screen bg-white overflow-hidden px-4 py-12">
+    <!-- Geometric background shapes -->
+    <div class="absolute -left-32 -top-20 w-[300px] h-[300px] bg-yellow-400 clip-parallelogram rotate-12 opacity-70 z-0"></div>
+    <div class="absolute top-32 right-[-100px] w-[400px] h-[300px] bg-black clip-parallelogram rotate-[20deg] opacity-10 z-0"></div>
+    <div class="absolute bottom-[-100px] left-10 w-[500px] h-[250px] bg-yellow-600 clip-parallelogram -rotate-6 opacity-30 z-0"></div>
+
+    <!-- Login Form -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen">
+      <LoginForm client:load />
+    </div>
+  </main>
+
+  <style is:global>
+    .clip-parallelogram {
+      clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 90%);
+    }
+  </style>
+</Layout>

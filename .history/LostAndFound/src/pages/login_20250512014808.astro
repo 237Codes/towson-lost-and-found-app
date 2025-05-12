@@ -1,0 +1,18 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main
+    class="relative min-h-screen w-full bg-white bg-[url('/pattern.png')] bg-repeat px-4 py-12 flex items-center justify-center"
+  >
+    <!-- Overlay for subtle blur/fade -->
+    <div class="absolute inset-0 bg-white/90 backdrop-blur-sm z-0"></div>
+
+    <!-- Login Form -->
+    <div class="relative z-10">
+      <LoginForm client:load />
+    </div>
+  </main>
+</Layout>

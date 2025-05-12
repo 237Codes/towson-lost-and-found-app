@@ -1,0 +1,56 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="relative min-h-screen w-full overflow-hidden bg-white px-0 py-0">
+    <!-- Animated geometric shapes -->
+    <div class="absolute w-[150%] h-[200px] bg-yellow-400 clip-parallelogram rotate-[8deg] top-[-100px] left-[-25%] opacity-20 animate-drift-1"></div>
+    <div class="absolute w-[160%] h-[180px] bg-black clip-parallelogram rotate-[12deg] top-[150px] left-[-30%] opacity-10 animate-drift-2"></div>
+    <div class="absolute w-[140%] h-[160px] bg-yellow-600 clip-parallelogram -rotate-[6deg] bottom-[-80px] left-[-20%] opacity-30 animate-drift-3"></div>
+
+    <!-- Login Form centered in full width -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen px-4">
+      <div class="max-w-md w-full">
+        <LoginForm client:load />
+      </div>
+    </div>
+  </main>
+
+  <style is:global>
+    .clip-parallelogram {
+      clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 90%);
+    }
+
+    @keyframes drift1 {
+      0% { transform: translateY(0) rotate(8deg); }
+      50% { transform: translateY(10px) rotate(8deg); }
+      100% { transform: translateY(0) rotate(8deg); }
+    }
+
+    @keyframes drift2 {
+      0% { transform: translateY(0) rotate(12deg); }
+      50% { transform: translateY(-8px) rotate(12deg); }
+      100% { transform: translateY(0) rotate(12deg); }
+    }
+
+    @keyframes drift3 {
+      0% { transform: translateY(0) rotate(-6deg); }
+      50% { transform: translateY(12px) rotate(-6deg); }
+      100% { transform: translateY(0) rotate(-6deg); }
+    }
+
+    .animate-drift-1 {
+      animation: drift1 12s ease-in-out infinite;
+    }
+
+    .animate-drift-2 {
+      animation: drift2 16s ease-in-out infinite;
+    }
+
+    .animate-drift-3 {
+      animation: drift3 20s ease-in-out infinite;
+    }
+  </style>
+</Layout>

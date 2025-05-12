@@ -1,0 +1,10 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-yellow-100 px-4 py-12">
+    <LoginForm client:load />
+  </main>
+</Layout>
