@@ -1,0 +1,57 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="relative min-h-screen w-full bg-white px-4 py-12 overflow-hidden">
+    <!-- Animated SVG lines -->
+    <svg
+      class="absolute inset-0 w-full h-full z-0 opacity-10 animate-pulse-fast"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#facc15" />
+          <stop offset="100%" stop-color="#000000" />
+        </linearGradient>
+      </defs>
+
+      <!-- Draw repeated diagonal lines -->
+      {Array.from({ length: 20 }).map((_, i) => (
+        <line
+          x1={-20 + i * 10}
+          y1="0"
+          x2={i * 10}
+          y2="100"
+          stroke="url(#stroke)"
+          strokeWidth="0.5"
+        />
+      ))}
+    </svg>
+
+    <!-- Login Form -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen">
+      <LoginForm client:load />
+    </div>
+  </main>
+
+  <style is:global>
+    @keyframes pulse-fast {
+      0% {
+        transform: scale(1) translateY(0);
+      }
+      50% {
+        transform: scale(1.02) translateY(-2px);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .animate-pulse-fast {
+      animation: pulse-fast 6s ease-in-out infinite;
+    }
+  </style>
+</Layout>

@@ -1,0 +1,16 @@
+---
+import BuildingPage from "@/components/pages/Buildings";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="10-West/Cyber Center">
+  <BuildingPage
+    imageUrl="/images/ten-west.jpg"
+    imageAlt="10-West/Cyber Center"
+    title="10-West/Cyber Center"
+    description="Welcome to the 10-West/Cyber Center page!"
+    address="123 Main St, Towson University"
+    number="123-456-7890"
+    client:load
+  />
+</Layout>

@@ -1,0 +1,39 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main class="relative min-h-screen w-full bg-white overflow-hidden">
+    <!-- Towson-style abstract geometric shapes -->
+    <div class="absolute top-[10%] left-[5%] w-32 h-32 bg-[#ffb800] rotate-[15deg]"></div> <!-- Gold square -->
+    <div class="absolute top-[30%] right-[10%] w-0 h-0 border-l-[60px] border-r-[60px] border-b-[100px] border-l-transparent border-r-transparent border-b-black"></div> <!-- Black triangle -->
+    <div class="absolute bottom-[15%] left-[10%] w-40 h-40 bg-[#facc15] clip-hexagon"></div> <!-- Yellow hexagon -->
+    <div class="absolute bottom-[8%] right-[8%] w-24 h-24 bg-black rotate-[45deg] opacity-80"></div> <!-- Black diamond -->
+    <div class="absolute top-[50%] left-[40%] w-28 h-28 bg-[#ffb800] clip-trapezoid"></div> <!-- Gold trapezoid -->
+
+    <!-- Login form -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen px-4">
+      <div class="w-full max-w-md">
+        <LoginForm client:load />
+      </div>
+    </div>
+  </main>
+
+  <style is:global>
+    .clip-hexagon {
+      clip-path: polygon(
+        25% 0%,
+        75% 0%,
+        100% 50%,
+        75% 100%,
+        25% 100%,
+        0% 50%
+      );
+    }
+
+    .clip-trapezoid {
+      clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+    }
+  </style>
+</Layout>

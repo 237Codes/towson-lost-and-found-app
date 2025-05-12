@@ -1,0 +1,179 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<head>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+</head>
+
+<Layout title="Login - TU Lost and Found">
+  <main class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
+    <div class="w-full max-w-md space-y-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900">
+          Login to TU Lost and Found
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+          Report and track lost/found items on campus
+        </p>
+      </div>
+      
+      <div id="error-message" class="hidden rounded-md bg-red-50 p-4 text-red-600">
+      </div>
+
+     <form id="login-form" class="mt-8 space-y-6">
+        <div class="space-y-4 rounded-md shadow-sm">
+          <div>
+            <label for="email" class="sr-only">Towson Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              pattern="[a-zA-Z0-9._%+-]+@students\.towson\.edu$"
+              class="relative block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
+              placeholder="username@students.towson.edu"
+            />
+          </div>
+          <div>
+            <label for="password" class="sr-only">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              class="relative block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-yellow-500 focus:outline-none focus:ring-yellow-500"
+              placeholder="Password"
+            />
+          </div>
+        </div>
+        <div>
+          <button
+            type="submit"
+            id="submit-btn"
+            class="group relative flex w-full justify-center rounded-md border border-transparent bg-yellow-600 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+          >
+            <span id="button-text">Sign in</span>
+            <span id="loading-spinner" class="hidden">
+              <!-- Add loading spinner SVG here -->
+              <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+          </button>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              class="h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500"
+            />
+            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+              Remember me
+            </label>
+          </div>
+
+        </div>
+      </form>
+
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Don't have an account?
+        <a href="/signup" class="font-medium text-yellow-600 hover:text-yellow-500">
+          Sign up
+        </a>
+      </p>
+    </div>
+  </main>
+
+  
+
+</Layout>
+
+<script>
+import Toastify from 'toastify-js'; 
+  const form = document.getElementById('login-form') as HTMLFormElement;
+  const errorDiv = document.getElementById('error-message') as HTMLDivElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const buttonText = document.getElementById('button-text') as HTMLSpanElement;
+  const loadingSpinner = document.getElementById('loading-spinner') as HTMLSpanElement;
+
+  function showSuccessToast() {
+    Toastify({
+      text: "Successfully logged in!",
+      duration: 2000,
+      gravity: "bottom",
+      position: "right",
+      style: {
+        background: "#FFB800",
+        color: "white",
+        borderRadius: "8px",
+      },
+    }).showToast();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    buttonText.classList.add('hidden');
+    loadingSpinner.classList.remove('hidden');
+    errorDiv.classList.add('hidden');
+
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.get('email'),
+          password: formData.get('password'),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store user data in localStorage if remember me is checked
+      if (formData.get('remember-me')) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+      } else {
+        sessionStorage.setItem('user', JSON.stringify(data.user));
+      }
+
+      // Show success message
+      showSuccessToast();
+
+      // Redirect to homepage on success
+      setTimeout(() => {
+        window.location.href = '/report-lost';
+      }, 2000);
+    } catch (error) {
+      // Show error toast instead of error div
+      Toastify({
+        text: error instanceof Error ? error.message : 'An unexpected error occurred',
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "#EF4444",
+          color: "white",
+          borderRadius: "8px",
+        },
+      }).showToast();
+      
+      // Reset button state
+      submitBtn.disabled = false;
+      buttonText.classList.remove('hidden');
+      loadingSpinner.classList.add('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,20 @@
+---
+import LoginForm from "@/components/LoginForm";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Login - TU Lost and Found">
+  <main
+    class="relative min-h-screen w-full bg-white bg-[url('/images/towson-aerial.jpeg')] bg-no-repeat bg-cover bg-center overflow-hidden"
+  >
+    <!-- Optional overlay for readability -->
+    <div class="absolute inset-0 bg-white/80 backdrop-blur-sm z-0"></div>
+
+    <!-- Login form -->
+    <div class="relative z-10 flex items-center justify-center min-h-screen px-4">
+      <div class="w-full max-w-md">
+        <LoginForm client:load />
+      </div>
+    </div>
+  </main>
+</Layout>

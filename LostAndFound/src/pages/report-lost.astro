@@ -4,9 +4,11 @@ import { ItemForm } from "../components/pages/ItemForm";
 ---
 
 <Layout title="Report Lost Item">
-    <main class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6">Report Lost Item</h1>
-        <ItemForm type="lost" />
-    </main>
-</Layout>
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Report a Lost Item</h1>
 
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+      <ItemForm type="lost" client:load />
+    </div>
+  </main>
+</Layout>

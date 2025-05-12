@@ -1,92 +1,136 @@
-// User route file
-
 const express = require("express");
 const router = express.Router();
-const {pool} = require("../db");
+const { pool } = require("../db");
 
-// Get all users
+// POST /api/items — Submit a new item (lost or found)
+router.post("/", async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      phone,
+      itemName,
+      category,
+      colors,
+      brand,
+      description,
+      location,
+      date,
+      dropoff,
+      contactMethod,
+      canContact,
+      verificationTip,
+      type,
+    } = req.body;
+
+    if (!name || !email || !itemName || !description || !location || !date || !type) {
+      return res.status(400).json({ success: false, message: "Missing required fields." });
+    }
+
+    // Check if user exists
+    let user_id;
+    const [userRows] = await pool.query("SELECT user_id FROM users WHERE tu_email = ?", [email]);
+
+    if (userRows.length === 0) {
+      const [insertUser] = await pool.query(
+        `INSERT INTO users (first_name, last_name, tu_email, phone_number, role, is_email_verified) 
+         VALUES (?, ?, ?, ?, 'student', 0)`,
+        [
+          name.split(" ")[0],
+          name.split(" ").slice(1).join(" ") || "",
+          email,
+          phone || null,
+        ]
+      );
+      user_id = insertUser.insertId;
+    } else {
+      user_id = userRows[0].user_id;
+    }
+
+    const clean = (v) => (v === "" ? null : v);
+
+    const [result] = await pool.query(
+      `INSERT INTO items 
+      (user_id, type, title, category, color, brand, description, location_lost, date_lost, 
+       drop_off_location, preferred_contact_method, allow_contact, verification_tip, 
+       is_returned, is_high_value, created_at) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, NOW())`,
+      [
+        user_id,
+        clean(type),
+        clean(itemName),
+        clean(category),
+        Array.isArray(colors) && colors.length ? colors.join(", ") : null,
+        clean(brand),
+        clean(description),
+        clean(location),
+        clean(date),
+        clean(dropoff),
+        clean(contactMethod),
+        canContact ? 1 : 0,
+        clean(verificationTip),
+      ]
+    );
+
+    console.log(`✅ Item inserted (ID: ${result.insertId}) for user ID: ${user_id}`);
+    res.status(201).json({ success: true, item_id: result.insertId });
+
+  } catch (error) {
+    console.error("❌ Error inserting item:", error);
+    res.status(500).json({ success: false, message: "Error inserting item", error: error.message });
+  }
+});
+
+// GET /api/items — Fetch all or filtered items
 router.get("/", async (req, res) => {
   try {
-    const [users] = await pool.query(
-      "SELECT user_id, first_name, last_name, tu_email, role FROM users"
-    );
-    res.json({
-      success: true,
-      users,
-    });
-  } catch (error) {
-    console.error("Database error:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-});
+    const { location, type } = req.query;
 
-// Get users by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const [user] = await pool.query(
-      // Changed from db.query to pool.query
-      "SELECT user_id, first_name, last_name, tu_email, role FROM users WHERE user_id = ?",
-      [req.params.id]
-    );
-    if (user.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-    res.json({
-      success: true,
-      user: user[0],
-    });
-  } catch (error) {
-    console.error("Database error:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-});
+    let whereClauses = [`is_returned = 0`];
+    let values = [];
 
-// Delete user
-router.delete("/:email", async (req, res) => {
-  try {
-    const { email } = req.params;
-
-    // First delete related records from email_verifications
-    await pool.query(
-      `DELETE v FROM email_verifications v 
-       INNER JOIN users u ON v.user_id = u.user_id 
-       WHERE u.tu_email = ?`,
-      [email]
-    );
-
-    // Then delete the user
-    const [result] = await pool.query(
-      "DELETE FROM users WHERE tu_email = ?",
-      [email]
-    );
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+    if (location) {
+      whereClauses.push("location_lost = ?");
+      values.push(location);
     }
 
-    res.json({
-      success: true,
-      message: "User deleted successfully",
-    });
+    if (type === "lost" || type === "found") {
+      whereClauses.push("type = ?");
+      values.push(type);
+    }
+
+    const whereSQL = whereClauses.length ? `WHERE ${whereClauses.join(" AND ")}` : "";
+
+    const [items] = await pool.query(
+      `SELECT 
+         id, 
+         type,
+         title AS name, 
+         category, 
+         location_lost AS location, 
+         date_lost AS date, 
+         description, 
+         preferred_contact_method AS contact 
+       FROM items
+       ${whereSQL}
+       ORDER BY date_lost DESC
+       LIMIT 100`,
+      values
+    );
+
+    if (type === "lost") {
+      return res.json({ lost: items });
+    } else if (type === "found") {
+      return res.json({ found: items });
+    } else {
+      const lostItems = items.filter((i) => i.type === "lost");
+      const foundItems = items.filter((i) => i.type === "found");
+      return res.json({ lost: lostItems, found: foundItems });
+    }
+
   } catch (error) {
-    console.error("Error deleting user:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete user",
-      error: error.message,
-    });
+    console.error("❌ Error fetching items:", error);
+    res.status(500).json({ success: false, message: "Error fetching items", error: error.message });
   }
 });
 
