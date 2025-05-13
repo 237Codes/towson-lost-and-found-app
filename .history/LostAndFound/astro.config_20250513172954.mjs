@@ -1,13 +1,13 @@
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import node from "@astrojs/node"; // Node adapter for SSR
+import node from "@astrojs/node"; // ✅ Node adapter for SSR
 import { defineConfig } from "astro/config";
 import path from "path";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server", // enable SSR
-  adapter: node({ mode: "standalone" }), // required for Render
+  output: "server", // ✅ enable SSR
+  adapter: node({ mode: "standalone" }), // ✅ required for Render
   integrations: [
     tailwind({
       applyBaseStyles: false,

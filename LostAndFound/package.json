@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^9.2.1",
     "@astrojs/react": "^4.2.5",
     "@astrojs/tailwind": "^6.0.2",
     "@radix-ui/react-checkbox": "^1.1.5",
