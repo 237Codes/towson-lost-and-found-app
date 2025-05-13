@@ -15,7 +15,7 @@ const contactRoutes = require("./routes/contact");
 // Middleware
 app.use(
   cors({
-    origin: ["https://towson-lost-and-found-app.onrender.com"], 
+    origin: ["https://towson-lost-and-found-frontend.onrender.com"], // use your actual frontend Render domain
     methods: ["GET", "POST"],
     credentials: true,
   })
