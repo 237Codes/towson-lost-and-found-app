@@ -53,7 +53,7 @@ const SignupForm = () => {
     }
 
     try {
-      const baseUrl = (import.meta.env['PUBLIC_API_BASE_URL'] || "").replace(/\/$/, "");
+      const baseUrl = (import.meta.env.PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
       const res = await fetch(`${baseUrl}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
