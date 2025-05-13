@@ -1,8 +1,7 @@
 ---
-export const prerender = false; 
-
 import ItemDetail from "@/components/pages/ItemDetail";
 import Layout from "@/layouts/Layout.astro";
+import { useParams } from "astro:transitions/client"; // Astro 4+ client routing (or use Astro's props system)
 
 const { id } = Astro.params;
 ---
