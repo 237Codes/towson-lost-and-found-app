@@ -20,7 +20,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        "@": path.resolve("./src"), // Enables @/components/... imports
+        "@": path.resolve("./src"), // ✅ Enables @/components/... imports
       },
     },
   },

@@ -1,0 +1,81 @@
+-- ========================
+-- 1. Users and Authentication
+-- ========================
+
+-- Custom enum for user role
+CREATE TYPE IF NOT EXISTS user_role AS ENUM ('student', 'faculty', 'staff', 'admin');
+
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    user_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(35) NOT NULL,
+    last_name VARCHAR(35) NOT NULL,
+    tu_email VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20),
+    role user_role DEFAULT 'student',
+    points INT DEFAULT 0,
+    is_email_verified BOOLEAN DEFAULT FALSE,
+    email_verified_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT email_unique UNIQUE (tu_email)
+);
+
+-- Index on tu_email
+CREATE INDEX IF NOT EXISTS idx_email ON users(tu_email);
+
+
+-- ========================
+-- 2. User Sessions
+-- ========================
+
+CREATE TABLE IF NOT EXISTS user_sessions (
+    session_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    session_token VARCHAR(255) NOT NULL UNIQUE,
+    ip_address VARCHAR(45),
+    user_agent VARCHAR(255),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_session_token ON user_sessions(session_token);
+
+
+-- ========================
+-- 3. Email Verifications
+-- ========================
+
+CREATE TABLE IF NOT EXISTS email_verifications (
+    verification_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    verification_token VARCHAR(255) NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_verification_token ON email_verifications(verification_token);
+
+
+-- ========================
+-- 4. Buildings Table
+-- ========================
+
+CREATE TABLE IF NOT EXISTS buildings (
+    building_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    image_url TEXT,
+    image_alt TEXT,
+    address VARCHAR(255),
+    phone_number VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_building_name ON buildings(name);

@@ -1,7 +1,7 @@
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
+import vercel from "@astrojs/vercel/serverless"; // ✅ Added Vercel adapter
 import { defineConfig } from "astro/config";
-import path from "path";
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,17 +11,11 @@ export default defineConfig({
     }),
     react(),
   ],
-  output: "server", // still SSR output
+  output: "server", // ✅ Required for serverless SSR deployment
+  adapter: vercel(), // ✅ Register the adapter
   server: {
     proxy: {
-      "/api": "http://localhost:3001", // Proxy API calls in dev only
-    },
-  },
-  vite: {
-    resolve: {
-      alias: {
-        "@": path.resolve("./src"), // Enables @/components/... imports
-      },
+      '/api': 'http://localhost:3001', // Proxy API calls in dev only
     },
   },
   security: {
