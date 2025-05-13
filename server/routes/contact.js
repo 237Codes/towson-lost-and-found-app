@@ -1,19 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const { pool } = require("../db");
 
-// POST /api/contact
 router.post("/", async (req, res) => {
-  const { name, email, message } = req.body;
+  let connection;
+  try {
+    const { name, email, message } = req.body;
 
-  if (!name || !email || !message) {
-    return res.status(400).json({ success: false, message: "All fields are required." });
+    if (!name || !email || !message) {
+      return res.status(400).json({ success: false, message: "All fields are required." });
+    }
+
+    connection = await pool.getConnection();
+
+    console.log("📩 Contact form submitted:", { name, email, message });
+
+    res.status(200).json({ success: true, message: "Message received!" });
+  } catch (error) {
+    console.error("❌ Contact submission error:", error.message);
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
+  } finally {
+    if (connection) connection.release(); // ✅ Always release connection
   }
-
-  console.log("📩 Contact form submitted:", { name, email, message });
-
-  // TODO: Send email using a service like Nodemailer, Resend, etc.
-
-  res.status(200).json({ success: true, message: "Message received!" });
 });
 
 module.exports = router;

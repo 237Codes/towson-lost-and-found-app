@@ -2,8 +2,12 @@ const express = require("express");
 const router = express.Router();
 const { pool } = require("../db");
 
+// Helper to sanitize empty values
+const clean = (v) => (v === "" ? null : v);
+
 // POST /api/items — Submit a new item (lost or found)
 router.post("/", async (req, res) => {
+  let connection;
   try {
     const {
       name,
@@ -27,12 +31,14 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ success: false, message: "Missing required fields." });
     }
 
+    connection = await pool.getConnection();
+
     // Check if user exists
     let user_id;
-    const [userRows] = await pool.query("SELECT user_id FROM users WHERE tu_email = ?", [email]);
+    const [userRows] = await connection.query("SELECT user_id FROM users WHERE tu_email = ?", [email]);
 
     if (userRows.length === 0) {
-      const [insertUser] = await pool.query(
+      const [insertUser] = await connection.query(
         `INSERT INTO users (first_name, last_name, tu_email, phone_number, role, is_email_verified) 
          VALUES (?, ?, ?, ?, 'student', 0)`,
         [
@@ -47,9 +53,7 @@ router.post("/", async (req, res) => {
       user_id = userRows[0].user_id;
     }
 
-    const clean = (v) => (v === "" ? null : v);
-
-    const [result] = await pool.query(
+    const [result] = await connection.query(
       `INSERT INTO items 
       (user_id, type, title, category, color, brand, description, location_lost, date_lost, 
        drop_off_location, preferred_contact_method, allow_contact, verification_tip, 
@@ -78,11 +82,14 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error("❌ Error inserting item:", error);
     res.status(500).json({ success: false, message: "Error inserting item", error: error.message });
+  } finally {
+    if (connection) connection.release();
   }
 });
 
 // GET /api/items — Fetch all or filtered items
 router.get("/", async (req, res) => {
+  let connection;
   try {
     const { location, type } = req.query;
 
@@ -101,7 +108,8 @@ router.get("/", async (req, res) => {
 
     const whereSQL = whereClauses.length ? `WHERE ${whereClauses.join(" AND ")}` : "";
 
-    const [items] = await pool.query(
+    connection = await pool.getConnection();
+    const [items] = await connection.query(
       `SELECT 
          id, 
          type,
@@ -131,6 +139,8 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error("❌ Error fetching items:", error);
     res.status(500).json({ success: false, message: "Error fetching items", error: error.message });
+  } finally {
+    if (connection) connection.release();
   }
 });
 

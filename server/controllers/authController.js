@@ -1,14 +1,12 @@
 const bcrypt = require("bcrypt");
-const { pool } = require("../db");
 const EmailService = require("../emailverify/emailService");
 
 const authController = {
   // Register new user
-  register: async (req, res) => {
+  register: async (req, res, connection) => {
     try {
       const { firstName, lastName, tuEmail, phone, password } = req.body;
 
-      // Validate Towson email
       if (!tuEmail.endsWith("@students.towson.edu")) {
         return res.status(400).json({
           success: false,
@@ -17,7 +15,7 @@ const authController = {
       }
 
       // Check if user already exists
-      const [existingUser] = await pool.query(
+      const [existingUser] = await connection.query(
         "SELECT * FROM users WHERE tu_email = ?",
         [tuEmail]
       );
@@ -32,10 +30,10 @@ const authController = {
       // Hash password
       const passwordHash = await bcrypt.hash(password, 10);
 
-      // Create user
-      const [result] = await pool.query(
+      // Insert user
+      const [result] = await connection.query(
         `INSERT INTO users (first_name, last_name, tu_email, phone_number, password_hash) 
-                 VALUES (?, ?, ?, ?, ?)`,
+         VALUES (?, ?, ?, ?, ?)`,
         [firstName, lastName, tuEmail, phone || null, passwordHash]
       );
 
@@ -46,16 +44,15 @@ const authController = {
       }
 
       // Store verification code
-      await pool.query(
+      await connection.query(
         `INSERT INTO email_verifications (user_id, verification_token, expires_at) 
-                 VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR))`,
+         VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR))`,
         [result.insertId, emailResult.verificationCode]
       );
 
       res.status(201).json({
         success: true,
-        message:
-          "Registration successful. Please check your email for verification.",
+        message: "Registration successful. Please check your email for verification.",
       });
     } catch (error) {
       console.error("Registration error:", error);
@@ -68,16 +65,16 @@ const authController = {
   },
 
   // Verify email
-  verifyEmail: async (req, res) => {
+  verifyEmail: async (req, res, connection) => {
     try {
       const { email, code } = req.body;
 
-      const [verification] = await pool.query(
+      const [verification] = await connection.query(
         `SELECT v.*, u.tu_email 
-                 FROM email_verifications v 
-                 JOIN users u ON v.user_id = u.user_id 
-                 WHERE u.tu_email = ? AND v.verification_token = ? 
-                 AND v.is_used = FALSE AND v.expires_at > NOW()`,
+         FROM email_verifications v 
+         JOIN users u ON v.user_id = u.user_id 
+         WHERE u.tu_email = ? AND v.verification_token = ? 
+           AND v.is_used = FALSE AND v.expires_at > NOW()`,
         [email, code]
       );
 
@@ -88,14 +85,12 @@ const authController = {
         });
       }
 
-      // Mark email as verified
-      await pool.query(
+      await connection.query(
         "UPDATE users SET is_email_verified = TRUE WHERE tu_email = ?",
         [email]
       );
 
-      // Mark verification code as used
-      await pool.query(
+      await connection.query(
         "UPDATE email_verifications SET is_used = TRUE WHERE verification_token = ?",
         [code]
       );
@@ -115,12 +110,11 @@ const authController = {
   },
 
   // Login
-  login: async (req, res) => {
+  login: async (req, res, connection) => {
     try {
       const { email, password } = req.body;
 
-      // Get user
-      const [users] = await pool.query(
+      const [users] = await connection.query(
         "SELECT * FROM users WHERE tu_email = ?",
         [email]
       );
@@ -133,9 +127,8 @@ const authController = {
       }
 
       const user = users[0];
-
-      // Verify password
       const validPassword = await bcrypt.compare(password, user.password_hash);
+
       if (!validPassword) {
         return res.status(401).json({
           success: false,
@@ -143,7 +136,6 @@ const authController = {
         });
       }
 
-      // Check if email is verified
       if (!user.is_email_verified) {
         return res.status(401).json({
           success: false,
@@ -170,9 +162,6 @@ const authController = {
       });
     }
   },
-
-  
 };
-
 
 module.exports = authController;

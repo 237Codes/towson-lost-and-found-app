@@ -1,15 +1,12 @@
-// Testing db routes 
-
 const express = require("express");
 const router = express.Router();
 const { pool } = require("../db");
 
 // Test database connection route
 router.get("/test", async (req, res) => {
+  let connection;
   try {
-    const connection = await pool.getConnection();
-    connection.release(); // Important: release the connection back to the pool
-
+    connection = await pool.getConnection();
     res.json({
       message: "Database connection successful",
       connected: true,
@@ -21,45 +18,56 @@ router.get("/test", async (req, res) => {
       error: error.message,
       connected: false,
     });
+  } finally {
+    if (connection) connection.release();
   }
 });
 
-// Add this route to see table structures
+// Get structure of important tables
 router.get("/tables/structure", async (req, res) => {
+  let connection;
   try {
-    const [users] = await pool.query('DESCRIBE users');
-    const [verifications] = await pool.query('DESCRIBE email_verifications');
-    
+    connection = await pool.getConnection();
+    const [users] = await connection.query("DESCRIBE users");
+    const [verifications] = await connection.query("DESCRIBE email_verifications");
+
     res.json({
       message: "Table structures retrieved successfully",
       structures: {
         users,
-        email_verifications: verifications
-      }
+        email_verifications: verifications,
+      },
     });
   } catch (error) {
     console.error("Error retrieving table structures:", error);
     res.status(500).json({
       message: "Failed to retrieve table structures",
-      error: error.message
+      error: error.message,
     });
+  } finally {
+    if (connection) connection.release();
   }
 });
 
-// Add this route after your existing /api/test route
+// List all table names
 router.get("/tables", async (req, res) => {
+  let connection;
   try {
-    const [tables] = await pool.query('SHOW TABLES');
+    connection = await pool.getConnection();
+    const [tables] = await connection.query("SHOW TABLES");
+
     res.json({
       message: "Tables retrieved successfully",
-      tables: tables.map(table => Object.values(table)[0])
+      tables: tables.map((table) => Object.values(table)[0]),
     });
   } catch (error) {
     console.error("Error retrieving tables:", error);
     res.status(500).json({
       message: "Failed to retrieve tables",
-      error: error.message
+      error: error.message,
     });
+  } finally {
+    if (connection) connection.release();
   }
 });
 
