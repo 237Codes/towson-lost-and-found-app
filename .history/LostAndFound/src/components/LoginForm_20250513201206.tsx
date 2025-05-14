@@ -1,7 +1,13 @@
 import { useState } from "react";
 import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
-import { getApiUrl } from "@/utils/api";
+
+// ✅ Utility to build full backend URL
+const getApiUrl = (path: string) => {
+  const base =
+    (import.meta.env as any).PUBLIC_API_BASE_URL?.replace(/\/$/, "") || "";
+  return `${base}${path.startsWith("/") ? path : "/" + path}`;
+};
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
